@@ -1,4 +1,4 @@
-=== MPro Limit Post Views ===
+=== PMPro Limit Post Views ===
 Contributors: strangerstudios
 Tags: paid memberships pro, nytimes, new york times, post limits, limit, posts
 Requires at least: 3.0
