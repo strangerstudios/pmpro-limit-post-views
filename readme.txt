@@ -9,7 +9,7 @@ Integrates with Paid Memberships Pro to limit the number of times non-members ca
 
 == Description ==
 
-Inspired by sites like the New York Times, which limits users to 5-10 monthly article views before redirecting users to a paywall. The plugin sets a cookie for each visitor to track their views per month. This means that (just like the NYTimes sites) it is incredibly easy to circumvent this protection by using a different computer, browsers, or incognito mode, etc. The idea is not to completely block users from your site, but to nicely nudget consistant readers to sign up for an account.
+Inspired by sites like the New York Times, which limits users to 5-10 monthly article views before redirecting users to a paywall. The plugin sets a cookie for each visitor to track their views per month. This means that (just like the NYTimes sites) it is incredibly easy to circumvent this protection by using a different computer, browsers, or incognito mode, etc. The idea is not to completely block users from your site, but to gently nudge returning readers to sign up for an account.
 
 == Installation ==
 
