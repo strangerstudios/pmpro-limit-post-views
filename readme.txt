@@ -3,7 +3,7 @@ Contributors: strangerstudios
 Tags: paid memberships pro, nytimes, new york times, post limits, limit, posts
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: .1
+Stable tag: .2
 
 Integrates with Paid Memberships Pro to limit the number of times non-members can view posts on your site.
 
@@ -30,5 +30,8 @@ Please post it in the GitHub issue tracker here: https://github.com/strangerstud
 Please visit our premium support site at http://www.paidmembershipspro.com for more documentation and our support forums.
 
 == Changelog ==
+= .2 =
+* Added JavaScript option. Set at the top of the main plugin file.
+
 = .1 =
 * Initial version.
