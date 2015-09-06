@@ -41,7 +41,8 @@ function pmprolpv_init() {
 	if ( ! defined( 'PMPRO_LPV_LIMIT' ) ) {
 
 		global $current_user;
-		$level_id = $current_user->membership_level->id;
+		if(!empty($current_user->membership_level))
+			$level_id = $current_user->membership_level->id;
 		if ( empty( $level_id ) )
 			$level_id = 0;
 
