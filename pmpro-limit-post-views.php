@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: PMPro Limit Post Views
+Plugin Name: Paid Memberships Pro - Limit Post Views Add On
 Plugin URI: http://www.paidmembershipspro.com/wp/pmpro-limit-post-views/
 Description: Integrates with Paid Memberships Pro to limit the number of times non-members can view posts on your site.
 Version: .2
@@ -136,3 +136,21 @@ function pmpro_lpv_wp_footer()
 	</script>
 	<?php
 }
+
+
+
+/*
+Function to add links to the plugin row meta
+*/
+function pmpro_lpv_plugin_row_meta($links, $file) {
+	if(strpos($file, 'pmpro-limit-post-views.php') !== false)
+	{
+		$new_links = array(
+			'<a href="' . esc_url('http://www.paidmembershipspro.com/add-ons/plugins-on-github/pmpro-limit-post-views/')  . '" title="' . esc_attr( __( 'View Documentation', 'pmpro' ) ) . '">' . __( 'Docs', 'pmpro' ) . '</a>',
+			'<a href="' . esc_url('http://paidmembershipspro.com/support/') . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro' ) ) . '">' . __( 'Support', 'pmpro' ) . '</a>',
+		);
+		$links = array_merge($links, $new_links);
+	}
+	return $links;
+}
+add_filter('plugin_row_meta', 'pmpro_lpv_plugin_row_meta', 10, 2);

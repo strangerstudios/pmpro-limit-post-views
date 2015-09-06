@@ -1,6 +1,6 @@
-=== PMPro Limit Post Views ===
+=== Paid Memberships Pro - Limit Post Views Add On ===
 Contributors: strangerstudios
-Tags: paid memberships pro, nytimes, new york times, post limits, limit, posts
+Tags: paid memberships pro, pmpro, nytimes, new york times, post limits, limit, posts
 Requires at least: 3.0
 Tested up to: 3.6
 Stable tag: .2
