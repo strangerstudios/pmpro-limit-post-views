@@ -84,7 +84,6 @@ function pmpro_lpv_wp() {
 			$hasaccess = apply_filters('pmprolpv_has_membership_access', true, $queried_object);
 
 			if ( false === $hasaccess ) {
-
 				pmpro_lpv_redirect();
 			}
 
@@ -93,7 +92,6 @@ function pmpro_lpv_wp() {
 				wp_enqueue_script( 'wp-utils', includes_url( '/js/utils.js' ) );
 				add_action( "wp_footer", "pmpro_lpv_wp_footer" );
 				add_filter( "pmpro_has_membership_access_filter", "__return_true" );
-
 
 				return;
 			}
@@ -120,9 +118,7 @@ function pmpro_lpv_wp() {
 
 			//if count is above limit, redirect, otherwise update cookie
 			if ( $count > PMPRO_LPV_LIMIT ) {
-
 				pmpro_lpv_redirect();
-
 			} else {
 				//give them access and track the view
 				add_filter( "pmpro_has_membership_access_filter", "__return_true" );
