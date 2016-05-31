@@ -28,13 +28,25 @@ Author URI: http://www.strangerstudios.com
  *
  * @since 0.3.0
  */
+
+// Check if Paid Memberships Pro is installed
+if ( ! defined( 'PMPRO_VERSION' ) ) {
+	return;
+}
+
 require_once( plugin_dir_path( __FILE__ ) . 'includes/admin.php' );
+
+
 
 /**
  * Set up limit and whether or not to use JavaScript.
  *
  * @since 0.3.0
  */
+
+
+
+
 function pmprolpv_init() {
 
 	// Check for backwards compatibility
