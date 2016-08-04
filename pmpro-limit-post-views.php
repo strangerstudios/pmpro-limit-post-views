@@ -101,7 +101,7 @@ function pmpro_lpv_wp() {
 			}
 
 			//PHP is going to handle cookie check and redirect
-			$thismonth = date( "n" );
+			$thismonth = date( "n", current_time('timestamp') );
 
 			//check for past views
 			if ( ! empty( $_COOKIE['pmpro_lpv_count'] ) ) {
