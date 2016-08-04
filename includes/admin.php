@@ -41,7 +41,7 @@ function pmprolpv_settings_page() {
  * @since 0.3.0
  */
 function pmprolpv_admin_init() {
-
+	if(function_exists( 'pmpro_getAllLevels' )){
 	// Register limits settings section.
 	add_settings_section(
 		'pmprolpv_limits',
@@ -112,6 +112,7 @@ function pmprolpv_admin_init() {
 		'pmpro-limitpostviews',
 		'pmprolpv_use_js'
 	);
+ }
 }
 
 add_action( 'admin_init', 'pmprolpv_admin_init' );

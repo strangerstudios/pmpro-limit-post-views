@@ -28,6 +28,9 @@ Author URI: http://www.strangerstudios.com
  *
  * @since 0.3.0
  */
+
+// Check if Paid Memberships Pro is installed
+
 require_once( plugin_dir_path( __FILE__ ) . 'includes/admin.php' );
 
 /**
@@ -35,6 +38,7 @@ require_once( plugin_dir_path( __FILE__ ) . 'includes/admin.php' );
  *
  * @since 0.3.0
  */
+
 function pmprolpv_init() {
 
 	// Check for backwards compatibility
