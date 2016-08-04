@@ -35,6 +35,7 @@ Please visit our premium support site at http://www.paidmembershipspro.com for m
 * ENHANCEMENt: Now tracking views per level for cases where users upgrade their level during the middle of the month/etc.
 * ENHANCEMENT: Moved the redirect code into a pmpro_lpv_redirect() function.
 * ENHANCEMENT: Added a pmprolpv_has_membership_access filter that can be used to override the behavior of the code that redirects users away from content.
+* ENHANCEMENT: Added a pmprolpv_post_types filter that can be used to tell the addon to allow and limit views on other post types. Defaults to just array('post').
 
 = .3 =
 * BUG: Fixed issue where non-post pages and views (e.g. archive pages) were being tracked as page views. (Thanks, Squarelines)

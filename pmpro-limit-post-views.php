@@ -23,14 +23,6 @@ Author URI: http://www.strangerstudios.com
 	define('PMPRO_LPV_USE_JAVASCRIPT', false);
 */
 
-/**
- * Include required setup files.
- *
- * @since 0.3.0
- */
-
-// Check if Paid Memberships Pro is installed
-
 require_once( plugin_dir_path( __FILE__ ) . 'includes/admin.php' );
 
 /**
@@ -76,12 +68,20 @@ function pmpro_lpv_wp() {
 			If we're viewing a page that the user doesn't have access to...
 			Could add extra checks here.
 		*/
-
 		if ( ! pmpro_has_membership_access() ) {
 
 			//ignore non-posts
 			$queried_object = get_queried_object();						
-			if ( empty($queried_object) || empty($queried_object->post_type) || $queried_object->post_type != "post" ) {
+			
+			/**
+			 * Filter which post types should be tracked by LPV
+			 *
+			 * @since .4
+			 */
+			$pmprolpv_post_types = apply_filters('pmprolpv_post_types', array('post'));
+			
+			//check that queried object is in the allowed post types
+			if ( empty($queried_object) || empty($queried_object->post_type) || !in_array($queried_object->post_type, $pmprolpv_post_types) ) {
 				return;
 			}
 
@@ -101,25 +101,45 @@ function pmpro_lpv_wp() {
 			}
 
 			//PHP is going to handle cookie check and redirect
-			$thismonth = date( "n", current_time('timestamp') );
-
+			$thismonth = date( "n", current_time('timestamp') );			
+			
 			//check for past views
 			if ( ! empty( $_COOKIE['pmpro_lpv_count'] ) ) {
-				$parts = explode( ",", $_COOKIE['pmpro_lpv_count'] );
-				$month = $parts[1];
-				if ( $month == $thismonth ) {
-					$count = intval( $parts[0] ) + 1;
-				}    //same month as other views
-				else {
+				$month = $thismonth;
+				$parts = explode( ";", $_COOKIE['pmpro_lpv_count'] );
+				if(count($parts)>1) { // just in case
+					$month = $parts[1];
+				} else { // for one-time cookie format migration
+					$parts[0] = "0,0";
+				}
+				$limitparts = explode(',', $parts[0]);
+				$levellimits = array();
+				$length = count($limitparts);
+				for($i = 0; $i < $length; $i++) {
+					if($i % 2 == 1) {
+						$levellimits[$limitparts[$i-1]] = $limitparts[$i];
+					}
+				}
+				if ( $month == $thismonth && array_key_exists($level_id, $levellimits)) {
+					$count = $levellimits[$level_id] + 1; //same month as other views
+					$levellimits[$level_id]++;
+				} elseif( $month == $thismonth) { // same month, but we haven't ticked yet.
+					$count = 1;
+					$levellimits[$level_id] = 1;
+				} else {
 					$count = 1;                        //new month
+					$levellimits = array();
+					$levellimits[$level_id] = 1;
 					$month = $thismonth;
 				}
 			} else {
 				//new user
 				$count = 1;
+				$levellimits = array();
+				$levellimits[$level_id] = 1;
 				$month = $thismonth;
 			}
-
+			
 			//if count is above limit, redirect, otherwise update cookie
 			if ( $count > PMPRO_LPV_LIMIT ) {
 				pmpro_lpv_redirect();
@@ -145,7 +165,12 @@ function pmpro_lpv_wp() {
 					$expires = current_time( 'timestamp' ) + ( DAY_IN_SECONDS * 30 );
 				}
 
-				setcookie( 'pmpro_lpv_count', $count . ',' . $month, $expires, '/' );
+				// put the cookie string back together with updated values.
+				$cookiestr = "";
+				foreach($levellimits as $curlev => $curviews) {
+					$cookiestr .= "$curlev,$curviews";
+				}
+				setcookie( 'pmpro_lpv_count', $cookiestr . ';' . $month, $expires, '/' );				
 			}
 		}
 	}
@@ -179,28 +204,60 @@ function pmpro_lpv_wp_footer() {
 		var parts;					//cookie convert to array of 2 parts
 		var count;					//part 0 is the view count
 		var month;					//part 1 is the month
-
+		var newticks = []; 			// this will hold our usage this month by level
+		
 		//what is the current month?
 		var d = new Date();
 		var thismonth = d.getMonth();
 
+		// set mylevel to user's current level.
+		<?php
+		global $current_user;
+		if(!empty($current_user->membership_level)) {
+			$level_id = $current_user->membership_level->id;
+		}
+		if ( empty( $level_id ) ) {
+			$level_id = 0;
+		}
+		?>
+		var mylevel = <?=$level_id ?>;
+		
 		//get cookie
 		pmpro_lpv_count = wpCookies.get('pmpro_lpv_count');
 
-		if (pmpro_lpv_count) {
+		if (pmpro_lpv_count) {			
 			//get values from cookie
-			parts = pmpro_lpv_count.split(',');
+			parts = pmpro_lpv_count.split(';');
 			month = parts[1];
-			if (month == thismonth)
-				count = parseInt(parts[0]) + 1;	//same month as other views
-			else {
+			if(month === undefined) { month = thismonth; parts[0] = "0,0"; } // just in case, and for cookie format migration
+			limitparts = parts[0].split(',');
+			var limitarrlength = limitparts.length;
+			var curkey = -1;
+			for (var i = 0; i < limitarrlength; i ++) {
+				if(i % 2 == 0) {
+					curkey = parseInt(limitparts[i], 10);
+				} else {
+					newticks[curkey] = parseInt(limitparts[i], 10);
+					curkey = -1;
+				}
+			}
+			if (month == thismonth && newticks[mylevel] !== undefined) {
+				count = newticks[mylevel] + 1;	// same month as other views
+				newticks[mylevel]++; 			// advance it for writing to the cookie
+			} else if(month == thismonth) { // it's the current month, but we haven't ticked yet.
+				count = 1;
+				newticks[mylevel] = 1;
+			} else {
 				count = 1;						//new month
+				newticks = [];					// new month, so we don't care about old ticks
+				newticks[mylevel] = 1;
 				month = thismonth;
 			}
 		}
 		else {
 			//defaults
 			count = 1;
+			newticks[mylevel] = 1;
 			month = thismonth;
 		}
 
@@ -236,8 +293,17 @@ function pmpro_lpv_wp_footer() {
 				if(empty($expires))
 					$expires = DAY_IN_SECONDS * 30;
 			?>
-			//track the view
-			wpCookies.set('pmpro_lpv_count', String(count) + ',' + String(month), <?php echo $expires; ?>, '/');
+			
+			// put the cookie string back together with updated values.
+			var arrlen = newticks.length;
+			var outstr = "";
+			for(var i=0;i<arrlen;i++) {
+				if(newticks[i] !== undefined) {
+					outstr += "," + i + "," + newticks[i];
+				}
+			}
+			// output the cookie to track the view
+			wpCookies.set('pmpro_lpv_count', outstr.slice(1) + ';' + String(month), <?php echo $expires; ?>, '/');
 		}
 	</script>
 	<?php
