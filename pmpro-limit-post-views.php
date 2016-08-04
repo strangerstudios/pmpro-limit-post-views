@@ -84,7 +84,13 @@ function pmpro_lpv_wp() {
 			if ( empty($queried_object) || empty($queried_object->post_type) || $queried_object->post_type != "post" ) {			
 				return;
 			}
-			
+
+			$hasaccess = apply_filters('pmprolpv_has_membership_access', true, $queried_object);
+
+			if ( false === $hasaccess ) {
+				pmpro_lpv_redirect();
+			}
+
 			//if we're using javascript, just give them access and let JS redirect them
 			if ( PMPRO_LPV_USE_JAVASCRIPT ) {
 				wp_enqueue_script( 'wp-utils', includes_url( '/js/utils.js' ) );
@@ -116,16 +122,7 @@ function pmpro_lpv_wp() {
 
 			//if count is above limit, redirect, otherwise update cookie
 			if ( $count > PMPRO_LPV_LIMIT ) {
-
-				$page_id = get_option( 'pmprolpv_redirect_page' );
-				if ( empty( $page_id ) ) {
-					$redirect_url = pmpro_url( 'levels' );
-				} else {
-					$redirect_url = get_the_permalink( $page_id );
-				}
-
-				wp_redirect( $redirect_url );    //here is where you can change which page is redirected to
-				exit;
+				pmpro_lpv_redirect();
 			} else {
 				//give them access and track the view
 				add_filter( "pmpro_has_membership_access_filter", "__return_true" );
@@ -154,6 +151,22 @@ function pmpro_lpv_wp() {
 	}
 }
 
+/**
+ * Redirect to  the configured page or the default levels page
+ */
+function pmpro_lpv_redirect() {
+
+	$page_id = get_option( 'pmprolpv_redirect_page' );
+
+	if ( empty( $page_id ) ) {
+		$redirect_url = pmpro_url( 'levels' );
+	} else {
+		$redirect_url = get_the_permalink( $page_id );
+	}
+
+	wp_redirect( $redirect_url );    //here is where you can change which page is redirected to
+	exit;
+}
 /*
 	javascript limit (hooks for these are above)
 	this is only loaded on pages that are locked for members
