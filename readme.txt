@@ -1,9 +1,9 @@
 === Paid Memberships Pro - Limit Post Views Add On ===
 Contributors: strangerstudios
 Tags: paid memberships pro, pmpro, nytimes, new york times, post limits, limit, posts
-Requires at least: 3.0
-Tested up to: 4.3
-Stable tag: .3
+Requires at least: 4.0
+Tested up to: 4.5.3
+Stable tag: .4
 
 Integrates with Paid Memberships Pro to limit the number of times non-members can view posts on your site.
 
@@ -30,6 +30,12 @@ Please post it in the GitHub issue tracker here: https://github.com/strangerstud
 Please visit our premium support site at http://www.paidmembershipspro.com for more documentation and our support forums.
 
 == Changelog ==
+= .4 =
+* BUG: Fixed issue where the addon would crash if PMPro was not activated.
+* ENHANCEMENt: Now tracking views per level for cases where users upgrade their level during the middle of the month/etc.
+* ENHANCEMENT: Moved the redirect code into a pmpro_lpv_redirect() function.
+* ENHANCEMENT: Added a pmprolpv_has_membership_access filter that can be used to override the behavior of the code that redirects users away from content.
+
 = .3 =
 * BUG: Fixed issue where non-post pages and views (e.g. archive pages) were being tracked as page views. (Thanks, Squarelines)
 * ENHANCEMENT: Added ability to change post view limit intervals to hour, day, week, or month.
