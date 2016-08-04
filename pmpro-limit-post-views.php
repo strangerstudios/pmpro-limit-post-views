@@ -101,7 +101,7 @@ function pmpro_lpv_wp() {
 			}
 
 			//PHP is going to handle cookie check and redirect
-			$thismonth = date( "n", current_time('timestamp') );			
+			$thismonth = date( "n", current_time('timestamp') );
 			
 			//check for past views
 			if ( ! empty( $_COOKIE['pmpro_lpv_count'] ) ) {
@@ -170,7 +170,7 @@ function pmpro_lpv_wp() {
 				foreach($levellimits as $curlev => $curviews) {
 					$cookiestr .= "$curlev,$curviews";
 				}
-				setcookie( 'pmpro_lpv_count', $cookiestr . ';' . $month, $expires, '/' );				
+				setcookie( 'pmpro_lpv_count', $cookiestr . ';' . $month, $expires, '/' );
 			}
 		}
 	}
