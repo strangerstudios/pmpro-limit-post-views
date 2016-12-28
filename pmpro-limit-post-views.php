@@ -3,7 +3,7 @@
 Plugin Name: Paid Memberships Pro - Limit Post Views Add On
 Plugin URI: http://www.paidmembershipspro.com/wp/pmpro-limit-post-views/
 Description: Integrates with Paid Memberships Pro to limit the number of times non-members can view posts on your site.
-Version: .4
+Version: .5
 Author: Stranger Studios
 Author URI: http://www.strangerstudios.com
 */
@@ -72,6 +72,10 @@ function pmpro_lpv_wp() {
 
 			//ignore non-posts
 			$queried_object = get_queried_object();						
+			
+			// get level ID for current user
+			global $current_user;
+			$level_id = $current_user->membership_level->id;
 			
 			/**
 			 * Filter which post types should be tracked by LPV
@@ -220,7 +224,7 @@ function pmpro_lpv_wp_footer() {
 			$level_id = 0;
 		}
 		?>
-		var mylevel = <?=$level_id ?>;
+		var mylevel = <?php esc_attr_e( $level_id ); ?>;
 		
 		//get cookie
 		pmpro_lpv_count = wpCookies.get('pmpro_lpv_count');
