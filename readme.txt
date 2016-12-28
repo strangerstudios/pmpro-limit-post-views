@@ -2,8 +2,8 @@
 Contributors: strangerstudios
 Tags: paid memberships pro, pmpro, nytimes, new york times, post limits, limit, posts
 Requires at least: 4.0
-Tested up to: 4.5.3
-Stable tag: .4
+Tested up to: 4.7
+Stable tag: .5
 
 Integrates with Paid Memberships Pro to limit the number of times non-members can view posts on your site.
 
@@ -30,6 +30,11 @@ Please post it in the GitHub issue tracker here: https://github.com/strangerstud
 Please visit our premium support site at http://www.paidmembershipspro.com for more documentation and our support forums.
 
 == Changelog ==
+= .5 =
+* BUG: Fixed issue where current user's level ID wasn't used properly when NOT using JavaScript and counting views per level.
+* BUG: Fixed PHP warning when PMPRO_LPV_USE_JAVASCRIPT wasn't defined.
+
+
 = .4 =
 * BUG: Fixed issue where the addon would crash if PMPro was not activated.
 * ENHANCEMENt: Now tracking views per level for cases where users upgrade their level during the middle of the month/etc.
