@@ -92,7 +92,7 @@ function pmpro_lpv_wp() {
 			}
 
 			//if we're using javascript, just give them access and let JS redirect them
-			if ( PMPRO_LPV_USE_JAVASCRIPT ) {
+			if ( defined('PMPRO_LPV_USE_JAVASCRIPT') && PMPRO_LPV_USE_JAVASCRIPT ) {
 				wp_enqueue_script( 'wp-utils', includes_url( '/js/utils.js' ) );
 				add_action( "wp_footer", "pmpro_lpv_wp_footer" );
 				add_filter( "pmpro_has_membership_access_filter", "__return_true" );
@@ -141,7 +141,7 @@ function pmpro_lpv_wp() {
 			}
 			
 			//if count is above limit, redirect, otherwise update cookie
-			if ( $count > PMPRO_LPV_LIMIT ) {
+			if ( defined('PMPRO_LPV_LIMIT') && $count > PMPRO_LPV_LIMIT ) {
 				pmpro_lpv_redirect();
 			} else {
 				//give them access and track the view
