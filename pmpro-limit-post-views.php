@@ -69,7 +69,7 @@ function pmpro_lpv_wp() {
 			If we're viewing a page that the user doesn't have access to...
 			Could add extra checks here.
 		*/
-		if ( ! pmpro_has_membership_access() && is_user_logged_in() ) {
+		if ( ! pmpro_has_membership_access() ) {
 			/**
 			 * Filter which post types should be tracked by LPV
 			 *

@@ -23,7 +23,7 @@ require_once( PMPRO_DIR . '/adminpages/admin_header.php' );
  * @since 0.3.0
  */
 function pmprolpv_settings_section_limits() {
-	echo '<p>' . __( 'Limit post views by membership level below. Users without the specified membership level will be able to view that many posts which they normally would not have adccess to.', 'pmpro' ) . '</p>';
+	echo '<p>' . __( 'Limit post views by membership level below. Users without the specified membership level will be able to view that many posts which they normally would not have access to.', 'pmpro' ) . '</p>';
 }
 
 /**
