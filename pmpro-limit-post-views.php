@@ -1,27 +1,12 @@
 <?php
 /**
 Plugin Name: Paid Memberships Pro - Limit Post Views Add On
-Plugin URI: http://www.paidmembershipspro.com/wp/pmpro-limit-post-views/
-Description: Integrates with Paid Memberships Pro to limit the number of times non-members can view posts on your site.
+Plugin URI: https://www.paidmembershipspro.com/add-ons/pmpro-limit-post-views/
+Description: Integrates with Paid Memberships Pro to limit the number of times members and visitors can view posts on your site.
 Version: .5
-Author: Stranger Studios
-Author URI: http://www.strangerstudios.com
+Author: Paid Memberships Pro
+Author URI: https://www.paidmembershipspro.com
  */
-/*
-	The Idea
-	- Track a cookie on the user's computer.
-	- Only track on pages the user doesn't have access to.
-	- Allow up to 4 views without a membership level.
-	- On 4th view each month, redirect to a specific page to get them to sign up.
-*/
-
-/*
-	NOTE: These constants are no longer needed. Instead you should remove them from your custom plugin
-		  and set the values on the Memberships -> Limit Post Views settings page in the dashboard.
-
-	define('PMPRO_LPV_LIMIT', 3);			//<-- how many posts can a user view per month
-	define('PMPRO_LPV_USE_JAVASCRIPT', false);
-*/
 
 require_once( plugin_dir_path( __FILE__ ) . 'includes/admin.php' );
 
@@ -314,12 +299,31 @@ function pmpro_lpv_wp_footer() {
 }
 
 /**
-Function to add links to the plugin row meta
+ * Function to add links to the plugin action links
+ *
+ * @param array $links Array of links to be shown in plugin action links.
+ */
+function pmpro_lpv_plugin_action_links( $links ) {
+	if ( current_user_can( 'manage_options' ) ) {
+		$new_links = array(
+			'<a href="' . get_admin_url( null, 'admin.php?page=pmpro-limitpostviews' ) . '">' . __( 'Settings', 'pmpro-limit-post-views' ) . '</a>',
+		);
+	}
+	return array_merge( $new_links, $links );
+}
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'pmpro_lpv_plugin_action_links' );
+
+
+/**
+ * Function to add links to the plugin row meta
+ *
+ * @param array  $links Array of links to be shown in plugin meta.
+ * @param string $file Filename of the plugin meta is being shown for.
  */
 function pmpro_lpv_plugin_row_meta( $links, $file ) {
 	if ( strpos( $file, 'pmpro-limit-post-views.php' ) !== false ) {
 		$new_links = array(
-			'<a href="' . esc_url( 'http://www.paidmembershipspro.com/add-ons/plugins-on-github/pmpro-limit-post-views/' ) . '" title="' . esc_attr( __( 'View Documentation', 'pmpro' ) ) . '">' . __( 'Docs', 'pmpro' ) . '</a>',
+			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/add-ons/pmpro-limit-post-views/' ) . '" title="' . esc_attr( __( 'View Documentation', 'pmpro' ) ) . '">' . __( 'Docs', 'pmpro' ) . '</a>',
 			'<a href="' . esc_url( 'http://paidmembershipspro.com/support/' ) . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro' ) ) . '">' . __( 'Support', 'pmpro' ) . '</a>',
 		);
 		$links = array_merge( $links, $new_links );

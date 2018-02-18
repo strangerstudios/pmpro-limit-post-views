@@ -1,6 +1,6 @@
 <?php
 /**
- * PMPro Limit Post Views settings page
+ * Paid Memberships Pro - Limit Post Views Settings Page
  *
  * Displays settings page.
  *
@@ -8,14 +8,12 @@
  * @package PMPro_Limit_Post_Views
  */
 
-// Check permissions first
+// Check permissions first.
 if ( ! current_user_can( apply_filters( 'pmpro_edit_member_capability', 'manage_options' ) ) ) {
 	wp_die( 'You do not have sufficient permissions to access this page.' );
 }
 
-
 require_once( PMPRO_DIR . '/adminpages/admin_header.php' );
-
 
 /**
  * Display membership limits section.
@@ -23,29 +21,29 @@ require_once( PMPRO_DIR . '/adminpages/admin_header.php' );
  * @since 0.3.0
  */
 function pmprolpv_settings_section_limits() {
-	echo '<p>' . __( 'Limit post views by membership level below. Users without the specified membership level will be able to view that many posts which they normally would not have access to.', 'pmpro' ) . '</p>';
+	echo '<p>' . esc_html( __( 'Allow visitors or members limited access to view posts they do not already have access to view.', 'pmpro-limit-post-views' ) ) . '</p>';
 }
 
 /**
- * Display memberhsip limits field.
+ * Display membership limits field.
  *
  * @since 0.3.0
  */
 function pmprolpv_settings_field_limits( $level_id ) {
 	$limit = get_option( 'pmprolpv_limit_' . $level_id );
 	?>
-	<input size="2" type="text" id="level_<?php echo $level_id; ?>_views"
-	       name="pmprolpv_limit_<?php echo $level_id; ?>[views]" value="<?php echo $limit['views']; ?>">
-	<?php _e( ' views per ', 'pmprolpv' ); ?>
-	<select name="pmprolpv_limit_<?php echo $level_id; ?>[period]" id="level_<?php echo $level_id; ?>_period">
+	<input size="2" type="text" id="level_<?php echo esc_attr( $level_id ); ?>_views"
+	       name="pmprolpv_limit_<?php echo esc_attr( $level_id ); ?>[views]" value="<?php echo esc_attr( $limit['views'] ); ?>">
+	<?php esc_html_e( ' views per ', 'pmpro-limit-post-views' ); ?>
+	<select name="pmprolpv_limit_<?php echo esc_attr( $level_id ); ?>[period]" id="level_<?php echo esc_attr( $level_id ); ?>_period">
 		<option
-			value="hour" <?php selected( $limit['period'], 'hour' ); ?>><?php _e( 'Hour', 'pmprolpv' ); ?></option>
+			value="hour" <?php selected( $limit['period'], 'hour' ); ?>><?php esc_html_e( 'Hour', 'pmpro-limit-post-views' ); ?></option>
 		<option
-			value="day" <?php selected( $limit['period'], 'day' ); ?>><?php _e( 'Day', 'pmprolpv' ); ?></option>
+			value="day" <?php selected( $limit['period'], 'day' ); ?>><?php esc_html_e( 'Day', 'pmpro-limit-post-views' ); ?></option>
 		<option
-			value="week" <?php selected( $limit['period'], 'week' ); ?>><?php _e( 'Week', 'pmprolpv' ); ?></option>
+			value="week" <?php selected( $limit['period'], 'week' ); ?>><?php esc_html_e( 'Week', 'pmpro-limit-post-views' ); ?></option>
 		<option
-			value="month" <?php selected( $limit['period'], 'month' ); ?>><?php _e( 'Month', 'pmprolpv' ); ?></option>
+			value="month" <?php selected( $limit['period'], 'month' ); ?>><?php esc_html_e( 'Month', 'pmpro-limit-post-views' ); ?></option>
 	</select>
 	<?php
 }
@@ -64,17 +62,17 @@ function pmprolpv_settings_section_redirection() {
  * @since 0.3.0
  */
 function pmprolpv_settings_field_redirect_page() {
-
 	global $pmpro_pages;
-	$page_id = get_option('pmprolpv_redirect_page');
+	$page_id = get_option( 'pmprolpv_redirect_page' );
 
-	// Default to Levels page
-	if(empty($page_id))
+	// Default to Levels page.
+	if ( empty( $page_id ) ) {
 		$page_id = $pmpro_pages['levels'];
+	}
 
-	wp_dropdown_pages(array(
+	wp_dropdown_pages( array(
 		'selected' => $page_id,
-		'name' => 'pmprolpv_redirect_page'
+		'name' => 'pmprolpv_redirect_page',
 	));
 }
 
@@ -84,15 +82,16 @@ function pmprolpv_settings_field_redirect_page() {
  * @since 0.3.0
  */
 function pmprolpv_settings_field_use_js() {
-	$use_js = get_option('pmprolpv_use_js');
+	$use_js = get_option( 'pmprolpv_use_js' );
 	?>
-	<input value="1" type="checkbox" id="use_js" name="pmprolpv_use_js" <?php checked($use_js, 1); ?>>
+	<input value="1" type="checkbox" id="use_js" name="pmprolpv_use_js" <?php checked( $use_js, 1 ); ?>>
 	<?php
 }
 
 // Display settings page.
 ?>
-	<h2><?php _e( 'PMPro Limit Post Views', 'pmprolpv' ); ?></h2>
+	<h1><?php esc_html_e( 'Limit Post Views Add On', 'pmpro-limit-post-views' ); ?></h1>
+	<hr />
 	<form action="options.php" method="POST">
 		<?php settings_fields( 'pmpro-limitpostviews' ); ?>
 		<?php do_settings_sections( 'pmpro-limitpostviews' ); ?>
@@ -100,4 +99,4 @@ function pmprolpv_settings_field_use_js() {
 	</form>
 <?php
 
-require_once(PMPRO_DIR . '/adminpages/admin_footer.php');
+require_once( PMPRO_DIR . '/adminpages/admin_footer.php' );
