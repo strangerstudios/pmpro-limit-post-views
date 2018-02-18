@@ -30,6 +30,11 @@ Please post it in the GitHub issue tracker here: https://github.com/strangerstud
 Please visit our premium support site at http://www.paidmembershipspro.com for more documentation and our support forums.
 
 == Changelog ==
+= .5.1 =
+* ENHANCEMENT: WordPress coding standards review.
+* ENHANCEMENT: Adding a link to the plugin settings page in the plugin's action links.
+* ENHANCEMENT: Improving settings page layout and documentation.
+
 = .5 =
 * BUG: Fixed issue where current user's level ID wasn't used properly when NOT using JavaScript and counting views per level.
 * BUG: Fixed PHP warning when PMPRO_LPV_USE_JAVASCRIPT wasn't defined.
