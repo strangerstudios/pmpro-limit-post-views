@@ -59,38 +59,29 @@ function pmprolpv_init() {
 add_action( 'init', 'pmprolpv_init' );
 
 /**
- * PHP limit (deactivate JS version below if you use this).
+ * Limit post views or load JS to do the same.
+ * Hooks into wp action: add_action( 'wp', 'pmpro_lpv_wp' );
  */
-add_action( 'wp', 'pmpro_lpv_wp' );
 function pmpro_lpv_wp() {
-
+	global $current_user;
 	if ( function_exists( 'pmpro_has_membership_access' ) ) {
 		/*
 			If we're viewing a page that the user doesn't have access to...
 			Could add extra checks here.
 		*/
-		if ( ! pmpro_has_membership_access() ) {
-			// ignore non-posts.
-			$queried_object = get_queried_object();
-
-			// get level ID for current user.
-			global $current_user;
-			$level_id = $current_user->membership_level->id;
-
+		if ( ! pmpro_has_membership_access() && is_user_logged_in() ) {
 			/**
 			 * Filter which post types should be tracked by LPV
 			 *
 			 * @since .4
 			 */
 			$pmprolpv_post_types = apply_filters( 'pmprolpv_post_types', array( 'post' ) );
-
-			// check that queried object is in the allowed post types.
-			if ( empty( $queried_object ) || empty( $queried_object->post_type ) || ! in_array( $queried_object->post_type, $pmprolpv_post_types ) ) {
+			$queried_object = get_queried_object();
+			if ( empty( $queried_object ) || empty( $queried_object->post_type ) || ! in_array( $queried_object->post_type, $pmprolpv_post_types, true ) ) {
 				return;
 			}
 
 			$hasaccess = apply_filters( 'pmprolpv_has_membership_access', true, $queried_object );
-
 			if ( false === $hasaccess ) {
 				pmpro_lpv_redirect();
 			}
@@ -106,11 +97,17 @@ function pmpro_lpv_wp() {
 
 			// PHP is going to handle cookie check and redirect.
 			$thismonth = date( 'n', current_time( 'timestamp' ) );
+			$level = pmpro_getMembershipLevelForUser( $current_user->ID );
+			if ( ! empty( $level->id ) ) {
+				$level_id = $level->id;
+			} else {
+				$level_id = null;
+			}
 
 			// check for past views.
 			if ( ! empty( $_COOKIE['pmpro_lpv_count'] ) ) {
 				$month = $thismonth;
-				$parts = explode( ';', $_COOKIE['pmpro_lpv_count'] );
+				$parts = explode( ';', sanitize_text_field( $_COOKIE['pmpro_lpv_count'] ) );
 				if ( count( $parts ) > 1 ) { // just in case.
 					$month = $parts[1];
 				} else { // for one-time cookie format migration.
@@ -120,7 +117,7 @@ function pmpro_lpv_wp() {
 				$levellimits = array();
 				$length = count( $limitparts );
 				for ( $i = 0; $i < $length; $i++ ) {
-					if ( $i % 2 == 1 ) {
+					if ( $i % 2 === 1 ) {
 						$levellimits[ $limitparts[ $i -1 ] ] = $limitparts[ $i ];
 					}
 				}
@@ -179,6 +176,7 @@ function pmpro_lpv_wp() {
 		}
 	}
 }
+add_action( 'wp', 'pmpro_lpv_wp' );
 
 /**
  * Redirect to  the configured page or the default levels page
