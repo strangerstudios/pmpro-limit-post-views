@@ -30,6 +30,10 @@ Please post it in the GitHub issue tracker here: https://github.com/strangerstud
 Please visit our premium support site at http://www.paidmembershipspro.com for more documentation and our support forums.
 
 == Changelog ==
+
+= .5.2 =
+* BUG: Fixed broken link to Limit Post Views settings page in PMPro v2.0
+
 = .5.1 =
 * ENHANCEMENT: WordPress coding standards review.
 * ENHANCEMENT: Adding a link to the plugin settings page in the plugin's action links.

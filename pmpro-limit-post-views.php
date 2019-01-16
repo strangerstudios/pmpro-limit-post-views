@@ -1,14 +1,14 @@
 <?php
 /**
-Plugin Name: Paid Memberships Pro - Limit Post Views Add On
-Plugin URI: https://www.paidmembershipspro.com/add-ons/pmpro-limit-post-views/
-Description: Integrates with Paid Memberships Pro to limit the number of times members and visitors can view posts on your site.
-Version: .5
-Author: Paid Memberships Pro
-Author URI: https://www.paidmembershipspro.com
+ * Plugin Name: Paid Memberships Pro - Limit Post Views Add On
+ * Plugin URI: https://www.paidmembershipspro.com/add-ons/pmpro-limit-post-views/
+ * Description: Integrates with Paid Memberships Pro to limit the number of times members and visitors can view posts on your site.
+ * Version: .5
+ * Author: Paid Memberships Pro
+ * Author URI: https://www.paidmembershipspro.com
  */
 
-require_once( plugin_dir_path( __FILE__ ) . 'includes/admin.php' );
+require_once plugin_dir_path( __FILE__ ) . 'includes/admin.php';
 
 /**
  * Set up limit and whether or not to use JavaScript.
@@ -61,7 +61,7 @@ function pmpro_lpv_wp() {
 			 * @since .4
 			 */
 			$pmprolpv_post_types = apply_filters( 'pmprolpv_post_types', array( 'post' ) );
-			$queried_object = get_queried_object();
+			$queried_object      = get_queried_object();
 			if ( empty( $queried_object ) || empty( $queried_object->post_type ) || ! in_array( $queried_object->post_type, $pmprolpv_post_types, true ) ) {
 				return;
 			}
@@ -82,7 +82,7 @@ function pmpro_lpv_wp() {
 
 			// PHP is going to handle cookie check and redirect.
 			$thismonth = date( 'n', current_time( 'timestamp' ) );
-			$level = pmpro_getMembershipLevelForUser( $current_user->ID );
+			$level     = pmpro_getMembershipLevelForUser( $current_user->ID );
 			if ( ! empty( $level->id ) ) {
 				$level_id = $level->id;
 			} else {
@@ -98,32 +98,32 @@ function pmpro_lpv_wp() {
 				} else { // for one-time cookie format migration.
 					$parts[0] = '0,0';
 				}
-				$limitparts = explode( ',', $parts[0] );
+				$limitparts  = explode( ',', $parts[0] );
 				$levellimits = array();
-				$length = count( $limitparts );
+				$length      = count( $limitparts );
 				for ( $i = 0; $i < $length; $i++ ) {
 					if ( $i % 2 === 1 ) {
-						$levellimits[ $limitparts[ $i -1 ] ] = $limitparts[ $i ];
+						$levellimits[ $limitparts[ $i - 1 ] ] = $limitparts[ $i ];
 					}
 				}
 				if ( $month == $thismonth && array_key_exists( $level_id, $levellimits ) ) {
 					$count = $levellimits[ $level_id ] + 1; // same month as other views.
 					$levellimits[ $level_id ]++;
 				} elseif ( $month == $thismonth ) { // same month, but we haven't ticked yet.
-					$count = 1;
+					$count                    = 1;
 					$levellimits[ $level_id ] = 1;
 				} else {
-					$count = 1;                     // new month.
-					$levellimits = array();
+					$count                    = 1;                     // new month.
+					$levellimits              = array();
 					$levellimits[ $level_id ] = 1;
-					$month = $thismonth;
+					$month                    = $thismonth;
 				}
 			} else {
 				// new user.
-				$count = 1;
-				$levellimits = array();
+				$count                    = 1;
+				$levellimits              = array();
 				$levellimits[ $level_id ] = 1;
-				$month = $thismonth;
+				$month                    = $thismonth;
 			}
 
 			// if count is above limit, redirect, otherwise update cookie.
@@ -185,7 +185,7 @@ function pmpro_lpv_redirect() {
 	This is only loaded on pages that are locked for members
  */
 function pmpro_lpv_wp_footer() {
-?>
+	?>
 	<script>
 		//vars
 		var pmpro_lpv_count;        //stores cookie
@@ -193,7 +193,7 @@ function pmpro_lpv_wp_footer() {
 		var count;                  //part 0 is the view count
 		var month;                  //part 1 is the month
 		var newticks = [];          // this will hold our usage this month by level
-		
+
 		//what is the current month?
 		var d = new Date();
 		var thismonth = d.getMonth();
@@ -209,11 +209,11 @@ function pmpro_lpv_wp_footer() {
 		}
 		?>
 		var mylevel = <?php esc_attr_e( $level_id ); ?>;
-		
+
 		//get cookie
 		pmpro_lpv_count = wpCookies.get('pmpro_lpv_count');
 
-		if (pmpro_lpv_count) {          
+		if (pmpro_lpv_count) {
 			//get values from cookie
 			parts = pmpro_lpv_count.split(';');
 			month = parts[1];
@@ -259,7 +259,7 @@ function pmpro_lpv_wp_footer() {
 				$redirect_url = get_the_permalink( $page_id );
 			}
 			?>
-			window.location.replace('<?php echo $redirect_url;?>');
+			window.location.replace('<?php echo $redirect_url; ?>');
 		} else {
 			<?php
 			if ( defined( 'PMPRO_LPV_LIMIT_PERIOD' ) ) {
@@ -282,7 +282,7 @@ function pmpro_lpv_wp_footer() {
 				$expires = DAY_IN_SECONDS * 30;
 			}
 			?>
-			
+
 			// put the cookie string back together with updated values.
 			var arrlen = newticks.length;
 			var outstr = "";
@@ -326,7 +326,7 @@ function pmpro_lpv_plugin_row_meta( $links, $file ) {
 			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/add-ons/pmpro-limit-post-views/' ) . '" title="' . esc_attr( __( 'View Documentation', 'pmpro' ) ) . '">' . __( 'Docs', 'pmpro' ) . '</a>',
 			'<a href="' . esc_url( 'http://paidmembershipspro.com/support/' ) . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro' ) ) . '">' . __( 'Support', 'pmpro' ) . '</a>',
 		);
-		$links = array_merge( $links, $new_links );
+		$links     = array_merge( $links, $new_links );
 	}
 	return $links;
 }
