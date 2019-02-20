@@ -14,14 +14,17 @@
  * @since 0.3.0
  */
 function pmprolpv_admin_menu() {
-	add_submenu_page(
-		'pmpro-membershiplevels',
-		'Limit Post Views',
-		'Limit Post Views',
-		apply_filters( 'pmpro_edit_member_capability', 'manage_options' ),
-		'pmpro-limitpostviews',
-		'pmprolpv_settings_page'
-	);
+if ( ! defined( 'PMPRO_VERSION' ) ) {
+        return;
+    }
+	
+	$cap = apply_filters( 'pmpro_add_member_cap', 'edit_users' );
+
+	if( version_compare( PMPRO_VERSION, '2.0' ) >= 0 ) {
+		add_submenu_page( 'pmpro-dashboard', __( 'Limit Post Views', 'pmpro-limitpostviews' ), __( 'Limit Post View', 'pmpro-limitpostviews' ), $cap, 'pmpro-limitpostviews', 'pmprolpv_settings_page' );
+	} else {
+		add_submenu_page( 'pmpro-membershiplevels', __( 'Limit Post Views', 'pmpro-limitpostviews' ), __( 'Limit Post View', 'pmpro-limitpostviews' ), $cap, 'pmpro-limitpostviews', 'pmprolpv_settings_page' );
+	}
 }
 add_action( 'admin_menu', 'pmprolpv_admin_menu' );
 
