@@ -18,7 +18,7 @@ if ( ! defined( 'PMPRO_VERSION' ) ) {
         return;
     }
 	
-	$cap = apply_filters( 'pmpro_add_member_cap', 'edit_users' );
+	$cap = apply_filters( 'pmpro_limitpostview_cap', 'edit_users' );
 
 	if( version_compare( PMPRO_VERSION, '2.0' ) >= 0 ) {
 		add_submenu_page( 'pmpro-dashboard', __( 'Limit Post Views', 'pmpro-limitpostviews' ), __( 'Limit Post View', 'pmpro-limitpostviews' ), $cap, 'pmpro-limitpostviews', 'pmprolpv_settings_page' );
