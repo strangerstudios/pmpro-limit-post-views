@@ -62,6 +62,7 @@ function pmpro_lpv_wp() {
 			 */
 			$pmprolpv_post_types = apply_filters( 'pmprolpv_post_types', array( 'post' ) );
 			$queried_object = get_queried_object();
+			
 			if ( empty( $queried_object ) || empty( $queried_object->post_type ) || ! in_array( $queried_object->post_type, $pmprolpv_post_types, true ) ) {
 				return;
 			}
@@ -185,6 +186,43 @@ function pmpro_lpv_redirect() {
 	This is only loaded on pages that are locked for members
  */
 function pmpro_lpv_wp_footer() {
+	global $current_user;
+	
+	// Get the current user's level id.
+	if ( ! empty( $current_user->membership_level ) ) {
+		$level_id = $current_user->membership_level->id;
+	}
+	if ( empty( $level_id ) ) {
+		$level_id = 0;
+	}
+	
+	// Figure out the redirect URL.
+	$page_id = get_option( 'pmprolpv_redirect_page' );
+	if ( empty( $page_id ) ) {
+		$redirect_url = pmpro_url( 'levels' );
+	} else {
+		$redirect_url = get_the_permalink( $page_id );
+	}
+	
+	// Figure out the expiration period.
+	if ( defined( 'PMPRO_LPV_LIMIT_PERIOD' ) ) {
+		switch ( PMPRO_LPV_LIMIT_PERIOD ) {
+			case 'hour':
+				$expires = HOUR_IN_SECONDS;
+				break;
+			case 'day':
+				$expires = DAY_IN_SECONDS;
+				break;
+			case 'week':
+				$expires = WEEK_IN_SECONDS;
+				break;
+			case 'month':
+				$expires = DAY_IN_SECONDS * 30;
+		}
+	}
+	if ( empty( $expires ) ) {
+		$expires = DAY_IN_SECONDS * 30;
+	}
 ?>
 	<script>
 		//vars
@@ -197,18 +235,9 @@ function pmpro_lpv_wp_footer() {
 		//what is the current month?
 		var d = new Date();
 		var thismonth = d.getMonth();
-
-		// set mylevel to user's current level.
-		<?php
-		global $current_user;
-		if ( ! empty( $current_user->membership_level ) ) {
-			$level_id = $current_user->membership_level->id;
-		}
-		if ( empty( $level_id ) ) {
-			$level_id = 0;
-		}
-		?>
-		var mylevel = <?php esc_attr_e( $level_id ); ?>;
+		
+		// set mylevel to user's current level.		
+		var mylevel = <?php echo json_encode( intval( $level_id ) ); ?>;
 		
 		//get cookie
 		pmpro_lpv_count = wpCookies.get('pmpro_lpv_count');
@@ -250,39 +279,9 @@ function pmpro_lpv_wp_footer() {
 		}
 
 		// if count is above limit, redirect, otherwise update cookie.
-		if ( count > <?php echo intval( PMPRO_LPV_LIMIT ); ?>) {
-			<?php
-				$page_id = get_option( 'pmprolpv_redirect_page' );
-			if ( empty( $page_id ) ) {
-				$redirect_url = pmpro_url( 'levels' );
-			} else {
-				$redirect_url = get_the_permalink( $page_id );
-			}
-			?>
+		if ( count > <?php echo intval( PMPRO_LPV_LIMIT ); ?>) {	
 			window.location.replace('<?php echo $redirect_url;?>');
-		} else {
-			<?php
-			if ( defined( 'PMPRO_LPV_LIMIT_PERIOD' ) ) {
-				switch ( PMPRO_LPV_LIMIT_PERIOD ) {
-					case 'hour':
-						$expires = HOUR_IN_SECONDS;
-						break;
-					case 'day':
-						$expires = DAY_IN_SECONDS;
-						break;
-					case 'week':
-						$expires = WEEK_IN_SECONDS;
-						break;
-					case 'month':
-						$expires = DAY_IN_SECONDS * 30;
-				}
-			}
-
-			if ( empty( $expires ) ) {
-				$expires = DAY_IN_SECONDS * 30;
-			}
-			?>
-			
+		} else {			
 			// put the cookie string back together with updated values.
 			var arrlen = newticks.length;
 			var outstr = "";
