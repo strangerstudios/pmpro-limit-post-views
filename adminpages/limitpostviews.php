@@ -85,12 +85,17 @@ function pmprolpv_settings_field_use_js() {
 	$use_js = get_option( 'pmprolpv_use_js' );
 	?>
 	<input value="1" type="checkbox" id="use_js" name="pmprolpv_use_js" <?php checked( $use_js, 1 ); ?>>
+	<label for="use_js"><?php _e("If you have page caching enabled or the PHP redirect otherwise won't work, check this to add our JS code to protected pages.", 'pmpro-limit-post-views' ); ?></label>
 	<?php
 }
 
 // Display settings page.
 ?>
-	<h1><?php esc_html_e( 'Limit Post Views Add On', 'pmpro-limit-post-views' ); ?></h1>
+	<h1><?php esc_html_e( 'Limit Post Views Add On', 'pmpro-limit-post-views' ); ?></h1>	
+	<hr />
+	<h2><?php esc_html_e( 'How this Plugin Works', 'pmpro-limit-post-views' );?></h2>
+	<p><?php _e( "Users who visit a post and don't have access to it will be allowed to view the post as long as they haven't reached their limits set below. Once their limit is reached, they will be redirected to the page set below.", 'pmpro-limit-post-views'); ?>
+	<p><?php printf( __( "By default, this plugin does not work with pages or other Custom Post Types. You can <a href='%s'>apply Limit Post Views to other post types by following the instructions here</a>.", 'pmpro-limit-post-views' ), 'https://www.paidmembershipspro.com/offer-limited-access-to-restricted-page-or-custom-post-type-content-using-the-limit-post-views-add-on/' ); ?></p>
 	<hr />
 	<form action="options.php" method="POST">
 		<?php settings_fields( 'pmpro-limitpostviews' ); ?>
