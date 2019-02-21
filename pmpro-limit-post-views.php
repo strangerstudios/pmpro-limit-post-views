@@ -1,11 +1,11 @@
 <?php
 /**
-Plugin Name: Paid Memberships Pro - Limit Post Views Add On
-Plugin URI: https://www.paidmembershipspro.com/add-ons/pmpro-limit-post-views/
-Description: Integrates with Paid Memberships Pro to limit the number of times members and visitors can view posts on your site.
-Version: .5
-Author: Paid Memberships Pro
-Author URI: https://www.paidmembershipspro.com
+ * Plugin Name: Paid Memberships Pro - Limit Post Views Add On
+ * Plugin URI: https://www.paidmembershipspro.com/add-ons/pmpro-limit-post-views/
+ * Description: Integrates with Paid Memberships Pro to limit the number of times members and visitors can view posts on your site.
+ * Version: .5
+ * Author: Paid Memberships Pro
+ * Author URI: https://www.paidmembershipspro.com
  */
 
 require_once( plugin_dir_path( __FILE__ ) . 'includes/admin.php' );
