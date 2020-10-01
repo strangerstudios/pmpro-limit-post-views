@@ -173,6 +173,8 @@ function pmpro_lpv_redirect() {
 
 	if ( empty( $page_id ) ) {
 		$redirect_url = pmpro_url( 'levels' );
+	} elseif ( $page_id === 'no-redirect' ) {
+		return;
 	} else {
 		$redirect_url = get_the_permalink( $page_id );
 	}
