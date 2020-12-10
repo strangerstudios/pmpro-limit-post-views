@@ -37,13 +37,13 @@ function pmprolpv_settings_field_limits( $level_id ) {
 	<?php esc_html_e( ' views per ', 'pmpro-limit-post-views' ); ?>
 	<select name="pmprolpv_limit_<?php echo esc_attr( $level_id ); ?>[period]" id="level_<?php echo esc_attr( $level_id ); ?>_period">
 		<option
-			value="hour" <?php selected( $limit['period'], 'hour' ); ?>><?php esc_html_e( 'Hour', 'pmpro-limit-post-views' ); ?></option>
+			value="hour" <?php if( !empty( $limit['period'] ) { selected( $limit['period'], 'hour' ); } ?>><?php esc_html_e( 'Hour', 'pmpro-limit-post-views' ); ?></option>
 		<option
-			value="day" <?php selected( $limit['period'], 'day' ); ?>><?php esc_html_e( 'Day', 'pmpro-limit-post-views' ); ?></option>
+			value="day" <?php if( !empty( $limit['period'] ) { selected( $limit['period'], 'day' ); } ?>><?php esc_html_e( 'Day', 'pmpro-limit-post-views' ); ?></option>
 		<option
-			value="week" <?php selected( $limit['period'], 'week' ); ?>><?php esc_html_e( 'Week', 'pmpro-limit-post-views' ); ?></option>
+			value="week" <?php if( !empty( $limit['period'] ) { selected( $limit['period'], 'week' ); } ?>><?php esc_html_e( 'Week', 'pmpro-limit-post-views' ); ?></option>
 		<option
-			value="month" <?php selected( $limit['period'], 'month' ); ?>><?php esc_html_e( 'Month', 'pmpro-limit-post-views' ); ?></option>
+			value="month" <?php if( !empty( $limit['period'] ) { selected( $limit['period'], 'month' ); } ?>><?php esc_html_e( 'Month', 'pmpro-limit-post-views' ); ?></option>
 	</select>
 	<?php
 }
