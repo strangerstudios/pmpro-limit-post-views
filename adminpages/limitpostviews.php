@@ -77,6 +77,44 @@ function pmprolpv_settings_field_redirect_page() {
 }
 
 /**
+ * Display Content Overlay
+ */
+function pmprolpv_settings_field_content_overlay(){
+	$overlay = get_option( 'pmprolpv_content_overlay' );
+	?>
+	<select name="pmprolpv_content_overlay" id="pmprolpv_content_overlay">
+		<option value='none' <?php selected( $overlay, 'none' ); ?>><?php _e('None', 'pmpro-limit-post-views'); ?></option>
+		<option value='top' <?php selected( $overlay, 'top' ); ?>><?php _e('Top of Content', 'pmpro-limit-post-views'); ?></option>
+		<option value='bottom' <?php selected( $overlay, 'bottom' ); ?>><?php _e('Bottom of Content', 'pmpro-limit-post-views'); ?></option>
+		<option value='floating' <?php selected( $overlay, 'floating' ); ?>><?php _e('Floating', 'pmpro-limit-post-views'); ?></option>
+	</select>
+	<?php
+}
+
+/**
+ * Banner Background Color 
+ */
+function pmprolpv_settings_field_content_background(){
+
+	$colour = pmprolpv_banner_background();
+	?>
+	<input type='text' name='pmprolpv_content_background' class='color-picker' value='<?php echo $colour; ?>' />
+	<?php
+}
+
+/**
+ * Banner Text Colour
+ */
+function pmprolpv_settings_field_content_text(){
+
+	$colour = pmprolpv_banner_text();
+	?>
+	<input type='text' name='pmprolpv_content_text' class='color-picker' value='<?php echo $colour; ?>' />
+	<?php
+
+}
+
+/**
  * Display JavaScript field.
  *
  * @since 0.3.0

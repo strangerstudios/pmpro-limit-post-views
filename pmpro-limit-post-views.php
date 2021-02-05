@@ -8,6 +8,8 @@
  * Author URI: https://www.paidmembershipspro.com
  */
 
+define( 'PMPRO_LPV_URL', plugins_url( '', __FILE__ ) );
+
 require_once( plugin_dir_path( __FILE__ ) . 'includes/admin.php' );
 
 /**
@@ -54,7 +56,9 @@ function pmpro_lpv_wp() {
 			If we're viewing a page that the user doesn't have access to...
 			Could add extra checks here.
 		*/
-		if ( ! pmpro_has_membership_access() ) {
+		$validation = apply_filters( 'pmprolpv_should_have_membership_access', false );
+
+		if ( pmpro_has_membership_access() === $validation ) {
 			/**
 			 * Filter which post types should be tracked by LPV
 			 *
@@ -62,14 +66,18 @@ function pmpro_lpv_wp() {
 			 */
 			$pmprolpv_post_types = apply_filters( 'pmprolpv_post_types', array( 'post' ) );
 			$queried_object = get_queried_object();
-			
+
 			if ( empty( $queried_object ) || empty( $queried_object->post_type ) || ! in_array( $queried_object->post_type, $pmprolpv_post_types, true ) ) {
 				return;
 			}
 
 			$hasaccess = apply_filters( 'pmprolpv_has_membership_access', true, $queried_object );
+			
 			if ( false === $hasaccess ) {
-				pmpro_lpv_redirect();
+				if( !pmprolpv_is_overlay_enabled() ){
+					pmpro_lpv_redirect();
+				}
+
 			}
 
 			// if we're using javascript, just give them access and let JS redirect them.
@@ -129,7 +137,10 @@ function pmpro_lpv_wp() {
 
 			// if count is above limit, redirect, otherwise update cookie.
 			if ( defined( 'PMPRO_LPV_LIMIT' ) && $count > PMPRO_LPV_LIMIT ) {
-				pmpro_lpv_redirect();
+				if( !pmprolpv_is_overlay_enabled() ){
+					pmpro_lpv_redirect();
+				}
+
 			} else {
 				// give them access and track the view.
 				add_filter( 'pmpro_has_membership_access_filter', '__return_true' );
@@ -164,6 +175,13 @@ function pmpro_lpv_wp() {
 }
 add_action( 'wp', 'pmpro_lpv_wp' );
 
+function pmprolpv_frontend_styles(){
+
+	wp_enqueue_style( 'pmprolpv-frontend-styles', PMPRO_LPV_URL.'/assets/css/frontend.css' );
+
+}
+add_action( 'wp_enqueue_scripts', 'pmprolpv_frontend_styles' );
+
 /**
  * Redirect to  the configured page or the default levels page
  */
@@ -179,6 +197,18 @@ function pmpro_lpv_redirect() {
 
 	wp_redirect( $redirect_url );    // here is where you can change which page is redirected to.
 	exit;
+}
+
+function pmprolpv_is_overlay_enabled(){
+
+	$overlay = get_option( 'pmprolpv_content_overlay' );
+
+	if( $overlay !== 'none' || $overlay !== '' ){
+		return true;
+	}
+	
+	return false;
+
 }
 
 /**
@@ -297,6 +327,55 @@ function pmpro_lpv_wp_footer() {
 	<?php
 }
 
+function pmprolpv_filter_content( $content ){
+
+	$position = get_option( 'pmprolpv_content_overlay' );
+
+	if( $position == 'top' ){
+		$filtered_content = pmprolpv_banner_content( 'top' ).$content;
+	} elseif( $position == 'bottom' ){
+		$filtered_content = $content.pmprolpv_banner_content( 'top' );
+	} elseif( $position == 'floating' ){
+		$filtered_content = $content.pmprolpv_banner_content( 'float' );
+	} else {
+		$filtered_content = $content;
+	}
+
+	return $filtered_content;
+}
+add_filter( 'the_content', 'pmprolpv_filter_content', 10, 1 );
+
+function pmprolpv_banner_content( $position ){
+
+	$content = $class = "";
+
+	if ( defined( 'PMPRO_LPV_LIMIT' ) && PMPRO_LPV_LIMIT > 0 ) {
+
+		$limit = intval( PMPRO_LPV_LIMIT );
+
+		$limitparts = ( !empty( $_COOKIE['pmpro_lpv_count'] ) ) ? explode( ";", str_replace(',', '', $_COOKIE['pmpro_lpv_count'] ) ) : array();
+
+		$remaining_views = $limit - ($limitparts[0] + 1);
+
+		if ( $remaining_views > 1 ) { $s = 's'; } else { $s = ''; }
+		
+		if( $position == 'float' ){
+			$class = 'pmprolpv_floating_banner';
+		}
+
+		$content .= "<style>.pmprolpv_banner_counter p{ background-color: ".pmprolpv_banner_background()."; color: ".pmprolpv_banner_text()."; text-align: center; padding: 10px; } .pmprolpv_banner_counter a { color: ".pmprolpv_banner_text()."; } </style>";		
+
+		$content .= "<div class='pmprolpv_banner_counter ".$class."'><p>";
+
+		$content .= sprintf( __('You have %s of %s free %s remaining. %s or %s now for unlimited online access.', 'pmpro-limit-post-views' ), esc_html( $remaining_views ), PMPRO_LPV_LIMIT, __('article'.$s, 'pmpro-limit-post-views' ), '<a href="'.wp_login_url( get_permalink() ).'" title="Log in">'.__( 'Log in', 'pmpro-limt-post-views' ).'</a>', '<a href="'.pmpro_url( 'levels' ).'" title="Subscribe now">'.__('Subscribe', 'pmpro-limit-post-views').'</a>' );
+
+		$content .= "</p></div>";
+	}
+
+	return $content;
+
+}
+
 /**
  * Function to add links to the plugin action links
  *
@@ -330,3 +409,27 @@ function pmpro_lpv_plugin_row_meta( $links, $file ) {
 	return $links;
 }
 add_filter( 'plugin_row_meta', 'pmpro_lpv_plugin_row_meta', 10, 2 );
+
+function pmprolpv_banner_background(){
+
+	$colour = get_option( 'pmprolpv_content_background' );
+
+	if( $colour == '' ){
+		$colour = '#2997c8';
+	}
+
+	return $colour;
+	
+}
+
+function pmprolpv_banner_text(){
+
+	$colour = get_option( 'pmprolpv_content_text' );
+
+	if( $colour == '' ){
+		$colour = '#FFFFFF';
+	}
+
+	return $colour;
+
+} 
