@@ -31,6 +31,9 @@ function pmprolpv_init() {
 		if ( ! empty( $limit ) ) {
 			define( 'PMPRO_LPV_LIMIT', $limit['views'] );
 			define( 'PMPRO_LPV_LIMIT_PERIOD', $limit['period'] );
+		} else {
+			define( 'PMPRO_LPV_LIMIT', 0 );
+			define( 'PMPRO_LPV_LIMIT_PERIOD', '' );
 		}
 	}
 
@@ -147,6 +150,8 @@ function pmpro_lpv_wp() {
 							break;
 						case 'month':
 							$expires = current_time( 'timestamp' ) + ( DAY_IN_SECONDS * 30 );
+							default:
+							$expires = current_time( 'timestamp' );
 					}
 				} else {
 					$expires = current_time( 'timestamp' ) + ( DAY_IN_SECONDS * 30 );
