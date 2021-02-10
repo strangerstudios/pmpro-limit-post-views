@@ -72,6 +72,10 @@ function pmpro_lpv_wp() {
 				pmpro_lpv_redirect();
 			}
 
+			if( apply_filters( 'pmprolpv_redirect_empty_limit', true ) && ( defined( 'PMPRO_LPV_LIMIT' ) && PMPRO_LPV_LIMIT == 0 ) ){
+				return;
+			}
+
 			// if we're using javascript, just give them access and let JS redirect them.
 			if ( defined( 'PMPRO_LPV_USE_JAVASCRIPT' ) && PMPRO_LPV_USE_JAVASCRIPT ) {
 				wp_enqueue_script( 'wp-utils', includes_url( '/js/utils.js' ) );
