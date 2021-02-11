@@ -66,8 +66,7 @@ function pmpro_lpv_wp() {
 			 */
 			$pmprolpv_post_types = apply_filters( 'pmprolpv_post_types', array( 'post' ) );
 			$queried_object = get_queried_object();
-
-			if ( empty( $queried_object ) || empty( $queried_object->post_type ) || ! in_array( $queried_object->post_type, $pmprolpv_post_types, true ) ) {
+			if ( empty( $queried_object ) || empty( $queried_object->post_type ) || ! in_array( $queried_object->post_type, $pmprolpv_post_types, true ) || apply_filters( 'pmprlpv_queried_object', false, $queried_object ) ) {
 				return;
 			}
 
