@@ -8,13 +8,27 @@
  * @package PMPro_Limit_Post_views
  */
 
+function pmprolpv_admin_scripts(){
+
+	if( !empty( $_REQUEST['page'] ) && $_REQUEST['page'] == 'pmpro-limitpostviews' ){
+
+		wp_enqueue_style( 'wp-color-picker' );
+		wp_enqueue_script('jquery');
+		wp_enqueue_style( 'wp-color-picker' );
+		wp_enqueue_script( 'pmprolpv-admin-script', PMPRO_LPV_URL.'/assets/js/admin.js', array( 'wp-color-picker','jquery' ), false, true );
+
+	}
+
+}
+add_action( 'admin_enqueue_scripts', 'pmprolpv_admin_scripts' );
+
 /**
  * Add settings page to admin menu.
  *
  * @since 0.3.0
  */
 function pmprolpv_admin_menu() {
-if ( ! defined( 'PMPRO_VERSION' ) ) {
+	if ( ! defined( 'PMPRO_VERSION' ) ) {
         return;
     }
 	
@@ -83,6 +97,52 @@ function pmprolpv_admin_init() {
 				'pmprolpv_sanitize_limit'
 			);
 		}
+
+		// Register redirection settings field.
+		add_settings_field(
+			'pmprolpv_content_overlay',
+			'Enable Content Banner',
+			'pmprolpv_settings_field_content_overlay',
+			'pmpro-limitpostviews',
+			'pmprolpv_redirection'
+		);
+
+		// Register redirection setting.
+		register_setting(
+			'pmpro-limitpostviews',
+			'pmprolpv_content_overlay'
+		);
+
+
+		// Register redirection settings field.
+		add_settings_field(
+			'pmprolpv_content_background',
+			'Banner Background Color',
+			'pmprolpv_settings_field_content_background',
+			'pmpro-limitpostviews',
+			'pmprolpv_redirection'
+		);
+		
+		// Register redirection setting.
+		register_setting(
+			'pmpro-limitpostviews',
+			'pmprolpv_content_background'
+		);
+
+		// Register redirection settings field.
+		add_settings_field(
+			'pmprolpv_content_text',
+			'Banner Text Color',
+			'pmprolpv_settings_field_content_text',
+			'pmpro-limitpostviews',
+			'pmprolpv_redirection'
+		);
+		
+		// Register redirection setting.
+		register_setting(
+			'pmpro-limitpostviews',
+			'pmprolpv_content_text'
+		);
 
 		// Register redirection settings field.
 		add_settings_field(
