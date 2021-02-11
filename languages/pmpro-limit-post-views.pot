@@ -1,0 +1,105 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-11 15:48+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: pmpro-limit-post-views.php:308
+msgid "Settings"
+msgstr ""
+
+#: pmpro-limit-post-views.php:325
+msgid "View Documentation"
+msgstr ""
+
+#: pmpro-limit-post-views.php:325
+msgid "Docs"
+msgstr ""
+
+#: pmpro-limit-post-views.php:326
+msgid "Visit Customer Support Forum"
+msgstr ""
+
+#: pmpro-limit-post-views.php:326
+msgid "Support"
+msgstr ""
+
+#: adminpages/limitpostviews.php:24
+msgid ""
+"Allow visitors or members limited access to view posts they do not already "
+"have access to view."
+msgstr ""
+
+#: adminpages/limitpostviews.php:37
+msgid " views per "
+msgstr ""
+
+#: adminpages/limitpostviews.php:40
+msgid "Hour"
+msgstr ""
+
+#: adminpages/limitpostviews.php:42
+msgid "Day"
+msgstr ""
+
+#: adminpages/limitpostviews.php:44
+msgid "Week"
+msgstr ""
+
+#: adminpages/limitpostviews.php:46
+msgid "Month"
+msgstr ""
+
+#: adminpages/limitpostviews.php:88
+msgid ""
+"If you have page caching enabled or the PHP redirect otherwise won't work, "
+"check this to add our JS code to protected pages."
+msgstr ""
+
+#: adminpages/limitpostviews.php:94
+msgid "Limit Post Views Add On"
+msgstr ""
+
+#: adminpages/limitpostviews.php:96
+msgid "How this Plugin Works"
+msgstr ""
+
+#: adminpages/limitpostviews.php:97
+msgid ""
+"Users who visit a post and don't have access to it will be allowed to view "
+"the post as long as they haven't reached their limits set below. Once their "
+"limit is reached, they will be redirected to the page set below."
+msgstr ""
+
+#: adminpages/limitpostviews.php:98
+#, php-format
+msgid ""
+"By default, this plugin does not work with pages or other Custom Post Types. "
+"You can <a href='%s'>apply Limit Post Views to other post types by following "
+"the instructions here</a>."
+msgstr ""
+
+#: includes/admin.php:24 includes/admin.php:26
+msgid "Limit Post Views"
+msgstr ""
+
+#: includes/admin.php:24 includes/admin.php:26
+msgid "Limit Post View"
+msgstr ""
+
+#: includes/admin.php:66
+msgid "Non-members"
+msgstr ""
