@@ -37,13 +37,13 @@ function pmprolpv_settings_field_limits( $level_id ) {
 	<?php esc_html_e( ' views per ', 'pmpro-limit-post-views' ); ?>
 	<select name="pmprolpv_limit_<?php echo esc_attr( $level_id ); ?>[period]" id="level_<?php echo esc_attr( $level_id ); ?>_period">
 		<option
-			value="hour" <?php selected( $limit['period'], 'hour' ); ?>><?php esc_html_e( 'Hour', 'pmpro-limit-post-views' ); ?></option>
+			value="hour" <?php if( !empty( $limit['period'] ) { selected( $limit['period'], 'hour' ); } ?>><?php esc_html_e( 'Hour', 'pmpro-limit-post-views' ); ?></option>
 		<option
-			value="day" <?php selected( $limit['period'], 'day' ); ?>><?php esc_html_e( 'Day', 'pmpro-limit-post-views' ); ?></option>
+			value="day" <?php if( !empty( $limit['period'] ) { selected( $limit['period'], 'day' ); } ?>><?php esc_html_e( 'Day', 'pmpro-limit-post-views' ); ?></option>
 		<option
-			value="week" <?php selected( $limit['period'], 'week' ); ?>><?php esc_html_e( 'Week', 'pmpro-limit-post-views' ); ?></option>
+			value="week" <?php if( !empty( $limit['period'] ) { selected( $limit['period'], 'week' ); } ?>><?php esc_html_e( 'Week', 'pmpro-limit-post-views' ); ?></option>
 		<option
-			value="month" <?php selected( $limit['period'], 'month' ); ?>><?php esc_html_e( 'Month', 'pmpro-limit-post-views' ); ?></option>
+			value="month" <?php if( !empty( $limit['period'] ) { selected( $limit['period'], 'month' ); } ?>><?php esc_html_e( 'Month', 'pmpro-limit-post-views' ); ?></option>
 	</select>
 	<?php
 }
@@ -74,6 +74,44 @@ function pmprolpv_settings_field_redirect_page() {
 		'selected' => $page_id,
 		'name' => 'pmprolpv_redirect_page',
 	));
+}
+
+/**
+ * Display Content Overlay
+ */
+function pmprolpv_settings_field_content_overlay(){
+	$overlay = get_option( 'pmprolpv_content_overlay' );
+	?>
+	<select name="pmprolpv_content_overlay" id="pmprolpv_content_overlay">
+		<option value='none' <?php selected( $overlay, 'none' ); ?>><?php _e('None', 'pmpro-limit-post-views'); ?></option>
+		<option value='top' <?php selected( $overlay, 'top' ); ?>><?php _e('Top of Content', 'pmpro-limit-post-views'); ?></option>
+		<option value='bottom' <?php selected( $overlay, 'bottom' ); ?>><?php _e('Bottom of Content', 'pmpro-limit-post-views'); ?></option>
+		<option value='floating' <?php selected( $overlay, 'floating' ); ?>><?php _e('Floating', 'pmpro-limit-post-views'); ?></option>
+	</select>
+	<?php
+}
+
+/**
+ * Banner Background Color 
+ */
+function pmprolpv_settings_field_content_background(){
+
+	$colour = pmprolpv_banner_background();
+	?>
+	<input type='text' name='pmprolpv_content_background' class='color-picker' value='<?php echo $colour; ?>' />
+	<?php
+}
+
+/**
+ * Banner Text Colour
+ */
+function pmprolpv_settings_field_content_text(){
+
+	$colour = pmprolpv_banner_text();
+	?>
+	<input type='text' name='pmprolpv_content_text' class='color-picker' value='<?php echo $colour; ?>' />
+	<?php
+
 }
 
 /**
