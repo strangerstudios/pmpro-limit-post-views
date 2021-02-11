@@ -8,6 +8,15 @@
  * Author URI: https://www.paidmembershipspro.com
  */
 
+//Load text domain
+function pmprolpv_load_textdomain() {
+
+	$plugin_rel_path = basename( dirname( __FILE__ ) ) . '/languages';
+	load_plugin_textdomain( 'pmpro-limit-post-views', false, $plugin_rel_path );
+
+}
+add_action( 'plugins_loaded', 'pmprolpv_load_textdomain' );
+
 require_once( plugin_dir_path( __FILE__ ) . 'includes/admin.php' );
 
 /**
@@ -322,8 +331,8 @@ add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'pmpro_lpv_plu
 function pmpro_lpv_plugin_row_meta( $links, $file ) {
 	if ( strpos( $file, 'pmpro-limit-post-views.php' ) !== false ) {
 		$new_links = array(
-			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/add-ons/pmpro-limit-post-views/' ) . '" title="' . esc_attr( __( 'View Documentation', 'pmpro' ) ) . '">' . __( 'Docs', 'pmpro' ) . '</a>',
-			'<a href="' . esc_url( 'http://paidmembershipspro.com/support/' ) . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro' ) ) . '">' . __( 'Support', 'pmpro' ) . '</a>',
+			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/add-ons/pmpro-limit-post-views/' ) . '" title="' . esc_attr( __( 'View Documentation', 'pmpro-limit-post-views' ) ) . '">' . __( 'Docs', 'pmpro-limit-post-views' ) . '</a>',
+			'<a href="' . esc_url( 'http://paidmembershipspro.com/support/' ) . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro-limit-post-views' ) ) . '">' . __( 'Support', 'pmpro-limit-post-views' ) . '</a>',
 		);
 		$links = array_merge( $links, $new_links );
 	}
