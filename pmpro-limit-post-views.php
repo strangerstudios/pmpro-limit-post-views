@@ -415,6 +415,30 @@ function pmprolpv_banner_content( $position ) {
 }
 
 /**
+ * Returns the banner background color from settings.
+ *
+ */
+function pmprolpv_banner_background() {
+	$color = get_option( 'pmprolpv_content_background' );
+	if ( $color == '' ) {
+		$color = '#0073AA';
+	}
+	return $color;
+}
+
+/**
+ * Returns the banner text color from settings.
+ *
+ */
+function pmprolpv_banner_text() {
+	$color = get_option( 'pmprolpv_content_text' );
+	if ( $color == '' ) {
+		$color = '#FFFFFF';
+	}
+	return $color;
+}
+
+/**
  * Function to add links to the plugin action links
  *
  * @param array $links Array of links to be shown in plugin action links.
@@ -428,7 +452,6 @@ function pmpro_lpv_plugin_action_links( $links ) {
 	return array_merge( $new_links, $links );
 }
 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'pmpro_lpv_plugin_action_links' );
-
 
 /**
  * Function to add links to the plugin row meta
@@ -447,27 +470,3 @@ function pmpro_lpv_plugin_row_meta( $links, $file ) {
 	return $links;
 }
 add_filter( 'plugin_row_meta', 'pmpro_lpv_plugin_row_meta', 10, 2 );
-
-/**
- * Returns the banner background color from settings.
- *
- */
-function pmprolpv_banner_background() {
-	$color = get_option( 'pmprolpv_content_background' );
-	if ( $color == '' ) {
-		$color = '#2997c8';
-	}
-	return $color;
-}
-
-/**
- * Returns the banner text color from settings.
- *
- */
-function pmprolpv_banner_text() {
-	$color = get_option( 'pmprolpv_content_text' );
-	if ( $color == '' ) {
-		$color = '#FFFFFF';
-	}
-	return $color;
-}
