@@ -1,8 +1,22 @@
-.pmprolpv_floating_banner {
-    position: fixed;
-    bottom: -25px;
-    right: 0;
-    left: 0;
-    z-index: 999;
-    margin: 0;
+/*---------------------------------------
+	Banner Appearance
+---------------------------------------*/
+.pmprolpv_banner_counter p {
+	margin: 0;
+	padding: 10px;
+	text-align: center;
+}
+.pmprolpv_banner_counter-top {
+	margin-bottom: 1em;
+}
+.pmprolpv_banner_counter-bottom {
+	margin-top: 1em;
+}
+.pmprolpv_banner_counter-float {
+	bottom: 0;
+	left: 0;
+	margin: 0;
+	position: fixed;
+	width: 100%;
+	z-index: 999;
 }
