@@ -6,9 +6,13 @@
 	padding: 10px;
 	text-align: center;
 }
-
-
-.pmprolpv_floating_banner {
+.pmprolpv_banner_counter-top {
+	margin-bottom: 1em;
+}
+.pmprolpv_banner_counter-bottom {
+	margin-top: 1em;
+}
+.pmprolpv_banner_counter-float {
 	bottom: 0;
 	left: 0;
 	margin: 0;

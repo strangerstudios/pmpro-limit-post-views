@@ -369,7 +369,8 @@ add_filter( 'the_content', 'pmprolpv_filter_content', 10, 1 );
 
 function pmprolpv_banner_content( $position ) {
 
-	$content = $class = '';
+	$r = '';
+	$class = '';
 
 	if ( defined( 'PMPRO_LPV_LIMIT' ) && PMPRO_LPV_LIMIT > 0 ) {
 
@@ -391,15 +392,11 @@ function pmprolpv_banner_content( $position ) {
 		$banner_content = sprintf( __('You have %s of %s free %s remaining. %s or %s for additional access.', 'pmpro-limit-post-views' ), esc_html( $remaining_views ), PMPRO_LPV_LIMIT, _n( 'article', 'articles', $remaining_views, 'pmpro-limit-post-views' ), '<a href="'.wp_login_url( $post_url ).'" title="Log In">'.__( 'Log In', 'pmpro-limt-post-views' ).'</a>', '<a href="'.pmpro_url( 'levels' ).'" title="Join Now">'.__('Join Now', 'pmpro-limit-post-views').'</a>' );
 
 		// Build the return value.
-		$content .= '<style>.pmprolpv_banner_counter p { background-color: ' . pmprolpv_banner_background() . '; color: ' . pmprolpv_banner_text() . '; } .pmprolpv_banner_counter a { color: ' . pmprolpv_banner_text() . '; } </style>';
+		$r .= '<style>.pmprolpv_banner_counter p { background-color: ' . pmprolpv_banner_background() . '; color: ' . pmprolpv_banner_text() . '; } .pmprolpv_banner_counter a { color: ' . pmprolpv_banner_text() . '; } </style>';
 
-		if ( $position == 'float' ) {
-			$content .= '<div class="pmprolpv_banner_counter pmprolpv_floating_banner">';
-		} else {
-			$content .= '<div class="pmprolpv_banner_counter">';
-		}
+		$r .= '<div class="pmprolpv_banner_counter pmprolpv_banner_counter-' . $position . '">';
 
-		$content .= '<p>';
+		$r .= '<p>';
 
 		/**
 		 * Allow sites to filter the content in the banner.
@@ -409,12 +406,12 @@ function pmprolpv_banner_content( $position ) {
 		 * @param int $limit The total number of views this user was entitled to.
 		 * @param string $post_url The permalink to the current post viewed.
 		 */
-		$content .= apply_filters( 'pmprolpv_banner_content', $banner_content, $remaining_views, $limit, $post_url );
+		$r .= apply_filters( 'pmprolpv_banner_content', $banner_content, $remaining_views, $limit, $post_url );
 
-		$content .= '</p></div> <!-- end pmprolpv_banner_counter -->';
+		$r .= '</p></div> <!-- end pmprolpv_banner_counter -->';
 	}
 
-	return $content;
+	return $r;
 }
 
 /**
