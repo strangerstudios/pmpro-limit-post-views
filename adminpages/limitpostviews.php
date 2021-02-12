@@ -21,7 +21,7 @@ require_once( PMPRO_DIR . '/adminpages/admin_header.php' );
  * @since 0.3.0
  */
 function pmprolpv_settings_section_limits() {
-	echo '<p>' . esc_html( __( 'Allow visitors or members limited access to view posts they do not already have access to view.', 'pmpro-limit-post-views' ) ) . '</p>';
+	echo '<p>' . esc_html( __( 'Allow visitors or members limited access to view protected content.', 'pmpro-limit-post-views' ) ) . '</p>';
 }
 
 /**
@@ -132,8 +132,8 @@ function pmprolpv_settings_field_use_js() {
 	<h1><?php esc_html_e( 'Limit Post Views Add On', 'pmpro-limit-post-views' ); ?></h1>	
 	<hr />
 	<h2><?php esc_html_e( 'How this Plugin Works', 'pmpro-limit-post-views' );?></h2>
-	<p><?php _e( "Users who visit a post and don't have access to it will be allowed to view the post as long as they haven't reached their limits set below. Once their limit is reached, they will be redirected to the page set below.", 'pmpro-limit-post-views'); ?>
-	<p><?php printf( __( "By default, this plugin does not work with pages or other Custom Post Types. You can <a href='%s'>apply Limit Post Views to other post types by following the instructions here</a>.", 'pmpro-limit-post-views' ), 'https://www.paidmembershipspro.com/offer-limited-access-to-restricted-page-or-custom-post-type-content-using-the-limit-post-views-add-on/' ); ?></p>
+	<p><?php _e( "This plugin allows visitor access to members-only content based the settings below. Sites can choose to show a banner message of views remaining and can control the redirect location once a visitor reaches their limit.", 'pmpro-limit-post-views'); ?>
+	<p><?php printf( __( "By default, this plugin will only allow limited access to WordPress posts. You can <a href='%s' target='_blank'>apply these limits to other post types by following the instructions here</a>.", 'pmpro-limit-post-views' ), 'https://www.paidmembershipspro.com/offer-limited-access-to-restricted-page-or-custom-post-type-content-using-the-limit-post-views-add-on/' ); ?></p>
 	<hr />
 	<form action="options.php" method="POST">
 		<?php settings_fields( 'pmpro-limitpostviews' ); ?>
