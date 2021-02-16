@@ -50,6 +50,18 @@ function pmprolpv_settings_field_limits( $level_id ) {
  * @since 0.3.0
  */
 function pmprolpv_settings_section_redirection() {
+	echo '<p>' . esc_html( __( 'Control redirection behavior when a visitor or member reaches their limit.', 'pmpro-limit-post-views' ) ) . '</p>';
+}
+
+/**
+ * Disable Redirection
+ */
+function pmprolpv_settings_field_disable_redirection(){
+	$disable_redir = get_option( 'pmprolpv_disable_redirect' );
+	?>
+	<input value="1" type="checkbox" id="pmprolpv_disable_redirect" name="pmprolpv_disable_redirect" <?php checked( $disable_redir, 1 ); ?>>
+	<label for="pmprolpv_disable_redirect"><?php esc_html_e( 'Do not redirect away from a protected post when a visitor or member reaches their limit.', 'pmpro-limit-post-views' ); ?></label>
+	<?php
 }
 
 /**
@@ -70,6 +82,28 @@ function pmprolpv_settings_field_redirect_page() {
 		'selected' => $page_id,
 		'name' => 'pmprolpv_redirect_page',
 	) );
+}
+
+/**
+ * Display JavaScript field.
+ *
+ * @since 0.3.0
+ */
+function pmprolpv_settings_field_use_js() {
+	$use_js = get_option( 'pmprolpv_use_js' );
+	?>
+	<input value="1" type="checkbox" id="use_js" name="pmprolpv_use_js" <?php checked( $use_js, 1 ); ?>>
+	<label for="use_js"><?php _e("If you have page caching enabled or the PHP redirect otherwise won't work, check this to add our JS code to protected pages.", 'pmpro-limit-post-views' ); ?></label>
+	<?php
+}
+
+/**
+ * Display layout and design section.
+ *
+ * @since 0.3.0
+ */
+function pmprolpv_settings_section_layout() {
+	echo '<p>' . esc_html( __( 'Control the display and appearance of the optional banner showing the number of views remaining for this visitor or member.', 'pmpro-limit-post-views' ) ) . '</p>';
 }
 
 /**
@@ -100,17 +134,6 @@ function pmprolpv_settings_field_content_background() {
 }
 
 /**
- * Disable Redirection
- */
-function pmprolpv_settings_field_disable_redirection(){
-	$disable_redir = get_option( 'pmprolpv_disable_redirect' );
-	?>
-	<input value="1" type="checkbox" id="pmprolpv_disable_redirect" name="pmprolpv_disable_redirect" <?php checked( $disable_redir, 1 ); ?>>
-	<label for="pmprolpv_disable_redirect"><?php _e("Disable redirection away from posts when reaching a post view limit.", 'pmpro-limit-post-views' ); ?></label>
-	<?php
-}
-
-/**
  * Banner Text Color.
  *
  */
@@ -123,28 +146,15 @@ function pmprolpv_settings_field_content_text() {
 }
 
 /**
- * Display JavaScript field.
- *
- * @since 0.3.0
- */
-function pmprolpv_settings_field_use_js() {
-	$use_js = get_option( 'pmprolpv_use_js' );
-	?>
-	<input value="1" type="checkbox" id="use_js" name="pmprolpv_use_js" <?php checked( $use_js, 1 ); ?>>
-	<label for="use_js"><?php _e("If you have page caching enabled or the PHP redirect otherwise won't work, check this to add our JS code to protected pages.", 'pmpro-limit-post-views' ); ?></label>
-	<?php
-}
-
-/**
  * Display settings page.
  *
  */
 ?>
 	<h1><?php esc_html_e( 'Limit Post Views Add On', 'pmpro-limit-post-views' ); ?></h1>	
 	<hr />
-	<h2><?php esc_html_e( 'How this Plugin Works', 'pmpro-limit-post-views' );?></h2>
-	<p><?php _e( "This plugin allows visitor access to members-only content based the settings below. Sites can choose to show a banner message of views remaining and can control the redirect location once a visitor reaches their limit.", 'pmpro-limit-post-views'); ?>
-	<p><?php printf( __( "By default, this plugin will only allow limited access to WordPress posts. You can <a href='%s' target='_blank'>apply these limits to other post types by following the instructions here</a>.", 'pmpro-limit-post-views' ), 'https://www.paidmembershipspro.com/offer-limited-access-to-restricted-page-or-custom-post-type-content-using-the-limit-post-views-add-on/' ); ?></p>
+	<h2><?php esc_html_e( 'How This Plugin Works', 'pmpro-limit-post-views' );?></h2>
+	<p><?php esc_html_e( 'This plugin allows visitors and members access to protected content based the settings below. Sites can choose to show a banner with number of views remaining and can control the redirection settings once the limit is reached.', 'pmpro-limit-post-views'); ?>
+	<p><?php printf( __( 'By default, this plugin will only allow limited access to WordPress posts. You can <a href="%s" target="_blank">apply these limits to other post types by following the instructions here</a>.', 'pmpro-limit-post-views' ), 'https://www.paidmembershipspro.com/offer-limited-access-to-restricted-page-or-custom-post-type-content-using-the-limit-post-views-add-on/' ); ?></p>
 	<hr />
 	<form action="options.php" method="POST">
 		<?php settings_fields( 'pmpro-limitpostviews' ); ?>

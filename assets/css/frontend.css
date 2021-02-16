@@ -1,22 +1,44 @@
 /*---------------------------------------
 	Banner Appearance
 ---------------------------------------*/
-.pmprolpv_banner_counter p {
+#pmprolpv_banner_counter p {
 	margin: 0;
 	padding: 10px;
 	text-align: center;
 }
-.pmprolpv_banner_counter-top {
+#pmprolpv_banner_counter.pmprolpv_banner_counter-top {
 	margin-bottom: 1em;
 }
-.pmprolpv_banner_counter-bottom {
+#pmprolpv_banner_counter.pmprolpv_banner_counter-bottom {
 	margin-top: 1em;
 }
-.pmprolpv_banner_counter-float {
+#pmprolpv_banner_counter.pmprolpv_banner_counter-float {
 	bottom: 0;
 	left: 0;
 	margin: 0;
+	max-width: 100%;
+	min-width: 100%;
 	position: fixed;
 	width: 100%;
 	z-index: 999;
+}
+
+/*---------------------------------------
+	Blurred Content Block
+---------------------------------------*/
+.pmprolpv_blur_overlay {
+	position: relative;
+}
+.pmprolpv_blur_overlay .pmpro_content_message {
+	position: absolute;
+	background: #FFF;
+	margin: 10%;
+	border: 1px solid #CCC;
+	padding: 1em;
+	text-align: center;
+	width: 80%;
+}
+.pmprolpv_blur_overlay .pmprolpv_blur_content {
+	color: rgba(255, 255, 255, 0);
+	text-shadow: rgb(100,100,100) 0px 0px 1rem;
 }
