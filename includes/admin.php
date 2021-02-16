@@ -61,16 +61,8 @@ function pmprolpv_admin_init() {
 		// Register limits settings section.
 		add_settings_section(
 			'pmprolpv_limits',
-			'Membership Post View Limits',
+			__( 'Membership Post View Limits', 'pmpro-limit-post-views' ),
 			'pmprolpv_settings_section_limits',
-			'pmpro-limitpostviews'
-		);
-
-		// Register redirection settings section.
-		add_settings_section(
-			'pmprolpv_redirection',
-			'Redirection',
-			'pmprolpv_settings_section_redirection',
 			'pmpro-limitpostviews'
 		);
 
@@ -96,12 +88,20 @@ function pmprolpv_admin_init() {
 				'pmprolpv_limit_' . $id,
 				'pmprolpv_sanitize_limit'
 			);
-		}		
+		}
+
+		// Register redirection settings section.
+		add_settings_section(
+			'pmprolpv_redirection',
+			__( 'Redirection', 'pmpro-limit-post-views' ),
+			'pmprolpv_settings_section_redirection',
+			'pmpro-limitpostviews'
+		);
 
 		// Register redirection settings field.
 		add_settings_field(
 			'pmprolpv_disable_redirect',
-			'Disable Redirection',
+			__( 'Disable Redirect', 'pmpro-limit-post-views' ),
 			'pmprolpv_settings_field_disable_redirection',
 			'pmpro-limitpostviews',
 			'pmprolpv_redirection'
@@ -116,7 +116,7 @@ function pmprolpv_admin_init() {
 		// Register redirection settings field.
 		add_settings_field(
 			'pmprolpv_redirect_page',
-			'Redirect to',
+			__( 'Redirect To', 'pmpro-limit-post-views' ),
 			'pmprolpv_settings_field_redirect_page',
 			'pmpro-limitpostviews',
 			'pmprolpv_redirection'
@@ -131,7 +131,7 @@ function pmprolpv_admin_init() {
 		// Register JavaScript settings field.
 		add_settings_field(
 			'pmprolpv_use_js',
-			'Use JavaScript redirection',
+			__( 'Use JavaScript Redirection', 'pmpro-limit-post-views' ),
 			'pmprolpv_settings_field_use_js',
 			'pmpro-limitpostviews',
 			'pmprolpv_redirection'
@@ -149,15 +149,15 @@ function pmprolpv_admin_init() {
 		// Register redirection settings section.
 		add_settings_section(
 			'pmprolpv_layout_design',
-			'Layout & Design',
-			'pmprolpv_settings_section_redirection',
+			__( 'Layout and Design', 'pmpro-limit-post-views' ),
+			'pmprolpv_settings_section_layout',
 			'pmpro-limitpostviews'
 		);
 
 		// Register redirection settings field.
 		add_settings_field(
 			'pmprolpv_content_overlay',
-			'Enable Content Banner',
+			__( 'Enable Content Banner', 'pmpro-limit-post-views' ),
 			'pmprolpv_settings_field_content_overlay',
 			'pmpro-limitpostviews',
 			'pmprolpv_layout_design'
@@ -172,7 +172,7 @@ function pmprolpv_admin_init() {
 		// Register redirection settings field.
 		add_settings_field(
 			'pmprolpv_content_background',
-			'Banner Background Color',
+			__( 'Banner Background Color', 'pmpro-limit-post-views' ),
 			'pmprolpv_settings_field_content_background',
 			'pmpro-limitpostviews',
 			'pmprolpv_layout_design'
@@ -188,7 +188,7 @@ function pmprolpv_admin_init() {
 		// Register redirection settings field.
 		add_settings_field(
 			'pmprolpv_content_text',
-			'Banner Text Color',
+			__( 'Banner Text Color', 'pmpro-limit-post-views' ),
 			'pmprolpv_settings_field_content_text',
 			'pmpro-limitpostviews',
 			'pmprolpv_layout_design'

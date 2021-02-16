@@ -22,6 +22,15 @@ function pmprolpv_load_textdomain() {
 add_action( 'init', 'pmprolpv_load_textdomain' );
 
 /**
+ * Load CSS.
+ *
+ */
+function pmprolpv_frontend_styles() {
+	wp_enqueue_style( 'pmprolpv-frontend-styles', PMPRO_LPV_URL . '/assets/css/frontend.css' );
+}
+add_action( 'wp_enqueue_scripts', 'pmprolpv_frontend_styles' );
+
+/**
  * Load the admin settings page
  *
  */
@@ -194,13 +203,6 @@ function pmpro_lpv_wp() {
 }
 add_action( 'wp', 'pmpro_lpv_wp' );
 
-function pmprolpv_frontend_styles(){
-
-	wp_enqueue_style( 'pmprolpv-frontend-styles', PMPRO_LPV_URL.'/assets/css/frontend.css' );
-
-}
-add_action( 'wp_enqueue_scripts', 'pmprolpv_frontend_styles' );
-
 /**
  * Redirect to the configured page or the default levels page
  */
@@ -216,7 +218,7 @@ function pmpro_lpv_redirect() {
 			$redirect_url = get_the_permalink( $page_id );
 		}
 
-		wp_redirect( $redirect_url );    // here is where you can change which page is redirected to.
+		wp_redirect( $redirect_url );
 		exit;
 
 	}
@@ -426,9 +428,9 @@ function pmprolpv_banner_content( $position ) {
 			$banner_content = sprintf( __('You have %s of %s free %s remaining. %s or %s for additional access.', 'pmpro-limit-post-views' ), esc_html( $remaining_views ), PMPRO_LPV_LIMIT, _n( 'article', 'articles', $remaining_views, 'pmpro-limit-post-views' ), '<a href="'.wp_login_url( $post_url ).'" title="Log In">'.__( 'Log In', 'pmpro-limt-post-views' ).'</a>', '<a href="'.pmpro_url( 'levels' ).'" title="Join Now">'.__('Join Now', 'pmpro-limit-post-views').'</a>' );
 
 			// Build the return value.
-			$r .= '<style>.pmprolpv_banner_counter p { background-color: ' . pmprolpv_banner_background() . '; color: ' . pmprolpv_banner_text() . '; } .pmprolpv_banner_counter a { color: ' . pmprolpv_banner_text() . '; } </style>';
+			$r .= '<style>#pmprolpv_banner_counter p { background-color: ' . pmprolpv_banner_background() . '; color: ' . pmprolpv_banner_text() . '; } #pmprolpv_banner_counter a { color: ' . pmprolpv_banner_text() . '; } </style>';
 
-			$r .= '<div class="pmprolpv_banner_counter pmprolpv_banner_counter-' . $position . '">';
+			$r .= '<div id="pmprolpv_banner_counter" class="pmprolpv_banner_counter-' . $position . '">';
 
 			$r .= '<p>';
 
