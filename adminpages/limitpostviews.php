@@ -100,6 +100,17 @@ function pmprolpv_settings_field_content_background() {
 }
 
 /**
+ * Disable Redirection
+ */
+function pmprolpv_settings_field_disable_redirection(){
+	$disable_redir = get_option( 'pmprolpv_disable_redirect' );
+	?>
+	<input value="1" type="checkbox" id="pmprolpv_disable_redirect" name="pmprolpv_disable_redirect" <?php checked( $disable_redir, 1 ); ?>>
+	<label for="pmprolpv_disable_redirect"><?php _e("Disable redirection away from posts when reaching a post view limit.", 'pmpro-limit-post-views' ); ?></label>
+	<?php
+}
+
+/**
  * Banner Text Color.
  *
  */
