@@ -6,6 +6,8 @@
  * Version: .6
  * Author: Paid Memberships Pro
  * Author URI: https://www.paidmembershipspro.com
+ * Text Domain: pmpro-limit-post-views
+ * Domain Path: /languages
  */
 
 define( 'PMPRO_LPV_URL', plugins_url( '', __FILE__ ) );
