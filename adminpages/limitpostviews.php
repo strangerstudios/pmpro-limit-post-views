@@ -154,7 +154,9 @@ function pmprolpv_settings_field_content_text() {
 	<hr />
 	<h2><?php esc_html_e( 'How This Plugin Works', 'pmpro-limit-post-views' );?></h2>
 	<p><?php esc_html_e( 'This plugin allows visitors and members access to protected content based the settings below. Sites can choose to show a banner with number of views remaining and can control the redirection settings once the limit is reached.', 'pmpro-limit-post-views'); ?>
-	<p><?php printf( __( 'By default, this plugin will only allow limited access to WordPress posts. You can <a href="%s" target="_blank">apply these limits to other post types by following the instructions here</a>.', 'pmpro-limit-post-views' ), 'https://www.paidmembershipspro.com/offer-limited-access-to-restricted-page-or-custom-post-type-content-using-the-limit-post-views-add-on/' ); ?></p>
+	<p><?php 
+	/* translators: URL */
+	printf( __( 'By default, this plugin will only allow limited access to WordPress posts. You can <a href="%s" target="_blank">apply these limits to other post types by following the instructions here</a>.', 'pmpro-limit-post-views' ), 'https://www.paidmembershipspro.com/offer-limited-access-to-restricted-page-or-custom-post-type-content-using-the-limit-post-views-add-on/' ); ?></p>
 	<hr />
 	<form action="options.php" method="POST">
 		<?php settings_fields( 'pmpro-limitpostviews' ); ?>

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-02-17T15:00:44+00:00\n"
+"POT-Creation-Date: 2021-02-17T15:21:02+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.3.0\n"
 "X-Domain: pmpro-limit-post-views\n"
@@ -102,7 +102,8 @@ msgstr ""
 msgid "This plugin allows visitors and members access to protected content based the settings below. Sites can choose to show a banner with number of views remaining and can control the redirection settings once the limit is reached."
 msgstr ""
 
-#: adminpages/limitpostviews.php:157
+#. translators: URL
+#: adminpages/limitpostviews.php:159
 msgid "By default, this plugin will only allow limited access to WordPress posts. You can <a href=\"%s\" target=\"_blank\">apply these limits to other post types by following the instructions here</a>."
 msgstr ""
 
@@ -151,36 +152,39 @@ msgstr ""
 msgid "Banner Text Color"
 msgstr ""
 
-#: pmpro-limit-post-views.php:430
+#. translators: 1. remaining views, 2. views limit, 3. article(s), 4. log in link, 5. levels link
+#: pmpro-limit-post-views.php:432
 msgid "You have %s of %s free %s remaining. %s or %s for additional access."
 msgstr ""
 
-#: pmpro-limit-post-views.php:430
+#. translators: 1. remaining views, 2. views limit, 3. article(s), 4. log in link, 5. levels link
+#: pmpro-limit-post-views.php:432
 msgid "article"
 msgid_plural "articles"
 msgstr[0] ""
 msgstr[1] ""
 
-#: pmpro-limit-post-views.php:430
+#. translators: 1. remaining views, 2. views limit, 3. article(s), 4. log in link, 5. levels link
+#: pmpro-limit-post-views.php:432
 msgid "Join Now"
 msgstr ""
 
-#: pmpro-limit-post-views.php:489
+#: pmpro-limit-post-views.php:491
 msgid "Settings"
 msgstr ""
 
-#: pmpro-limit-post-views.php:505
+#: pmpro-limit-post-views.php:507
 msgid "View Documentation"
 msgstr ""
 
-#: pmpro-limit-post-views.php:505
+#: pmpro-limit-post-views.php:507
 msgid "Docs"
 msgstr ""
 
-#: pmpro-limit-post-views.php:506
+#: pmpro-limit-post-views.php:508
 msgid "Visit Customer Support Forum"
 msgstr ""
 
-#: pmpro-limit-post-views.php:506
+#: pmpro-limit-post-views.php:508
 msgid "Support"
 msgstr ""
