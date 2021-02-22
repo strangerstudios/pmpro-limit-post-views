@@ -1,0 +1,5 @@
+# Items to ignore when downloading a zip
+pmpro-limit-post-views-banner.jpg export-ignore
+.gitattributes export-ignore
+.github export-ignore
+README.md export-ignore
