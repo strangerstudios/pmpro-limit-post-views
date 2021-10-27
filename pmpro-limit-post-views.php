@@ -102,7 +102,7 @@ function pmpro_lpv_wp() {
 				$level_id = null;
 			}
 
-			// check for past views.
+			// check for past views.			
 			if ( ! empty( $_COOKIE['pmpro_lpv_count'] ) ) {
 				$month = $thismonth;
 				$parts = explode( ';', sanitize_text_field( $_COOKIE['pmpro_lpv_count'] ) );
@@ -149,19 +149,19 @@ function pmpro_lpv_wp() {
 				if ( defined( 'PMPRO_LPV_LIMIT_PERIOD' ) ) {
 					switch ( PMPRO_LPV_LIMIT_PERIOD ) {
 						case 'hour':
-							$expires = current_time( 'timestamp' ) + HOUR_IN_SECONDS;
+							$expires = current_time( 'timestamp', true ) + HOUR_IN_SECONDS;
 							break;
 						case 'day':
-							$expires = current_time( 'timestamp' ) + DAY_IN_SECONDS;
+							$expires = current_time( 'timestamp', true ) + DAY_IN_SECONDS;
 							break;
 						case 'week':
-							$expires = current_time( 'timestamp' ) + WEEK_IN_SECONDS;
+							$expires = current_time( 'timestamp', true ) + WEEK_IN_SECONDS;
 							break;
 						case 'month':
-							$expires = current_time( 'timestamp' ) + ( DAY_IN_SECONDS * 30 );
+							$expires = current_time( 'timestamp', true ) + ( DAY_IN_SECONDS * 30 );
 					}
 				} else {
-					$expires = current_time( 'timestamp' ) + ( DAY_IN_SECONDS * 30 );
+					$expires = current_time( 'timestamp', true ) + ( DAY_IN_SECONDS * 30 );
 				}
 
 				// put the cookie string back together with updated values.
@@ -169,7 +169,8 @@ function pmpro_lpv_wp() {
 				foreach ( $levellimits as $curlev => $curviews ) {
 					$cookiestr .= "$curlev,$curviews";
 				}
-				setcookie( 'pmpro_lpv_count', $cookiestr . ';' . $month, $expires, '/' );
+				
+				setcookie( 'pmpro_lpv_count', $cookiestr . ';' . $month, $expires, '/' );			
 			}
 		}
 	}
