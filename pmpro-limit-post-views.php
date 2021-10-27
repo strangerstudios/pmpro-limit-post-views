@@ -27,7 +27,7 @@ function pmprolpv_init() {
 			$level_id = 0;
 		}
 
-		$limit = get_option( 'pmprolpv_limit_' . $level_id );
+		$limit = pmpro_lpv_get_level_limit( $level_id );
 		if ( ! empty( $limit ) ) {
 			define( 'PMPRO_LPV_LIMIT', $limit['views'] );
 			define( 'PMPRO_LPV_LIMIT_PERIOD', $limit['period'] );
@@ -40,8 +40,20 @@ function pmprolpv_init() {
 		define( 'PMPRO_LPV_USE_JAVASCRIPT', $use_js );
 	}
 }
-
 add_action( 'init', 'pmprolpv_init' );
+
+/**
+ * Get LPV settings for a specified level.
+ * @param  int   $level_id The ID of the level to get limits for.
+ * @return array $limit    Limit for this level. 2 values in the array 'views' and 'period'.
+ */
+function pmpro_lpv_get_level_limit( $level_id ) {
+	$default_option = array(
+		'views' => '',
+		'period' => 'Month',
+	);
+	return get_option( 'pmprolpv_limit_' . $level_id, $default_option );	
+}
 
 /**
  * Limit post views or load JS to do the same.
