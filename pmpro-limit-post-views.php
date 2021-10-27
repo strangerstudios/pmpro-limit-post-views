@@ -6,6 +6,8 @@
  * Version: .6
  * Author: Paid Memberships Pro
  * Author URI: https://www.paidmembershipspro.com
+ * Text Domain: pmpro-limit-post-views
+ * Domain Path: /languages
  */
 
 define( 'PMPRO_LPV_URL', plugins_url( '', __FILE__ ) );
@@ -425,7 +427,10 @@ function pmprolpv_banner_content( $position ) {
 			$post_url = get_permalink();
 
 			// Set the default text for the banner content.
-			$banner_content = sprintf( __('You have %s of %s free %s remaining. %s or %s for additional access.', 'pmpro-limit-post-views' ), esc_html( $remaining_views ), PMPRO_LPV_LIMIT, _n( 'article', 'articles', $remaining_views, 'pmpro-limit-post-views' ), '<a href="'.wp_login_url( $post_url ).'" title="Log In">'.__( 'Log In', 'pmpro-limt-post-views' ).'</a>', '<a href="'.pmpro_url( 'levels' ).'" title="Join Now">'.__('Join Now', 'pmpro-limit-post-views').'</a>' );
+			$banner_content = sprintf( 
+				/* translators: 1. remaining views, 2. views limit, 3. article(s), 4. log in link, 5. levels link */
+				__('You have %1$s of %2$s free %3$s remaining. %4$s or %5$s for additional access.', 'pmpro-limit-post-views' ), esc_html( $remaining_views ), PMPRO_LPV_LIMIT, _n( 'article', 'articles', $remaining_views, 'pmpro-limit-post-views' ), '<a href="'.wp_login_url( $post_url ).'" title="Log In">'.__( 'Log In', 'pmpro-limt-post-views' ).'</a>', '<a href="'.pmpro_url( 'levels' ).'" title="Join Now">'.__('Join Now', 'pmpro-limit-post-views').'</a>'
+			);
 
 			// Build the return value.
 			$r .= '<style>#pmprolpv_banner_counter p { background-color: ' . pmprolpv_banner_background() . '; color: ' . pmprolpv_banner_text() . '; } #pmprolpv_banner_counter a { color: ' . pmprolpv_banner_text() . '; } </style>';
