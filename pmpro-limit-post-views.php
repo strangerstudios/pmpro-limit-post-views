@@ -34,11 +34,6 @@ function pmprolpv_init() {
 		}
 	}
 
-	// Check for backwards compatibility.
-	if ( ! defined( 'PMPRO_LPV_USE_JAVASCRIPT' ) ) {
-		$use_js = get_option( 'pmprolpv_use_js' );
-		define( 'PMPRO_LPV_USE_JAVASCRIPT', $use_js );
-	}
 }
 add_action( 'init', 'pmprolpv_init' );
 
@@ -84,94 +79,11 @@ function pmpro_lpv_wp() {
 				pmpro_lpv_redirect();
 			}
 
-			// if we're using javascript, just give them access and let JS redirect them.
-			if ( defined( 'PMPRO_LPV_USE_JAVASCRIPT' ) && PMPRO_LPV_USE_JAVASCRIPT ) {
-				wp_enqueue_script( 'wp-utils', includes_url( '/js/utils.js' ) );
-				add_action( 'wp_footer', 'pmpro_lpv_wp_footer' );
-				add_filter( 'pmpro_has_membership_access_filter', '__return_true' );
-
-				return;
-			}
-
-			// PHP is going to handle cookie check and redirect.
-			$thismonth = date( 'n', current_time( 'timestamp' ) );
-			$level = pmpro_getMembershipLevelForUser( $current_user->ID );
-			if ( ! empty( $level->id ) ) {
-				$level_id = $level->id;
-			} else {
-				$level_id = null;
-			}
-
-			// check for past views.			
-			if ( ! empty( $_COOKIE['pmpro_lpv_count'] ) ) {
-				$month = $thismonth;
-				$parts = explode( ';', sanitize_text_field( $_COOKIE['pmpro_lpv_count'] ) );
-				if ( count( $parts ) > 1 ) { // just in case.
-					$month = $parts[1];
-				} else { // for one-time cookie format migration.
-					$parts[0] = '0,0';
-				}
-				$limitparts = explode( ',', $parts[0] );
-				$levellimits = array();
-				$length = count( $limitparts );
-				for ( $i = 0; $i < $length; $i++ ) {
-					if ( $i % 2 === 1 ) {
-						$levellimits[ $limitparts[ $i -1 ] ] = $limitparts[ $i ];
-					}
-				}
-				if ( $month == $thismonth && array_key_exists( $level_id, $levellimits ) ) {
-					$count = $levellimits[ $level_id ] + 1; // same month as other views.
-					$levellimits[ $level_id ]++;
-				} elseif ( $month == $thismonth ) { // same month, but we haven't ticked yet.
-					$count = 1;
-					$levellimits[ $level_id ] = 1;
-				} else {
-					$count = 1;                     // new month.
-					$levellimits = array();
-					$levellimits[ $level_id ] = 1;
-					$month = $thismonth;
-				}
-			} else {
-				// new user.
-				$count = 1;
-				$levellimits = array();
-				$levellimits[ $level_id ] = 1;
-				$month = $thismonth;
-			}
-
-			// if count is above limit, redirect, otherwise update cookie.
-			if ( defined( 'PMPRO_LPV_LIMIT' ) && $count > PMPRO_LPV_LIMIT ) {
-				pmpro_lpv_redirect();
-			} else {
-				// give them access and track the view.
-				add_filter( 'pmpro_has_membership_access_filter', '__return_true' );
-
-				if ( defined( 'PMPRO_LPV_LIMIT_PERIOD' ) ) {
-					switch ( PMPRO_LPV_LIMIT_PERIOD ) {
-						case 'hour':
-							$expires = current_time( 'timestamp', true ) + HOUR_IN_SECONDS;
-							break;
-						case 'day':
-							$expires = current_time( 'timestamp', true ) + DAY_IN_SECONDS;
-							break;
-						case 'week':
-							$expires = current_time( 'timestamp', true ) + WEEK_IN_SECONDS;
-							break;
-						case 'month':
-							$expires = current_time( 'timestamp', true ) + ( DAY_IN_SECONDS * 30 );
-					}
-				} else {
-					$expires = current_time( 'timestamp', true ) + ( DAY_IN_SECONDS * 30 );
-				}
-
-				// put the cookie string back together with updated values.
-				$cookiestr = '';
-				foreach ( $levellimits as $curlev => $curviews ) {
-					$cookiestr .= "$curlev,$curviews";
-				}
-				
-				setcookie( 'pmpro_lpv_count', $cookiestr . ';' . $month, $expires, '/' );			
-			}
+		
+			wp_enqueue_script( 'wp-utils', includes_url( '/js/utils.js' ) );
+			add_action( 'wp_footer', 'pmpro_lpv_wp_footer' );
+			add_filter( 'pmpro_has_membership_access_filter', '__return_true' );
+			
 		}
 	}
 }

@@ -98,21 +98,7 @@ function pmprolpv_admin_init() {
 			'pmpro-limitpostviews',
 			'pmprolpv_redirect_page'
 		);
-
-		// Register JavaScript settings field.
-		add_settings_field(
-			'pmprolpv_use_js',
-			'Use JavaScript redirection',
-			'pmprolpv_settings_field_use_js',
-			'pmpro-limitpostviews',
-			'pmprolpv_redirection'
-		);
-
-		// Register JavaScript setting.
-		register_setting(
-			'pmpro-limitpostviews',
-			'pmprolpv_use_js'
-		);
+		
 	}
 }
 add_action( 'admin_init', 'pmprolpv_admin_init' );

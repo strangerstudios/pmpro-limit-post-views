@@ -76,19 +76,6 @@ function pmprolpv_settings_field_redirect_page() {
 	));
 }
 
-/**
- * Display JavaScript field.
- *
- * @since 0.3.0
- */
-function pmprolpv_settings_field_use_js() {
-	$use_js = get_option( 'pmprolpv_use_js' );
-	?>
-	<input value="1" type="checkbox" id="use_js" name="pmprolpv_use_js" <?php checked( $use_js, 1 ); ?>>
-	<label for="use_js"><?php _e("If you have page caching enabled or the PHP redirect otherwise won't work, check this to add our JS code to protected pages.", 'pmpro-limit-post-views' ); ?></label>
-	<?php
-}
-
 // Display settings page.
 ?>
 	<h1><?php esc_html_e( 'Limit Post Views Add On', 'pmpro-limit-post-views' ); ?></h1>	
