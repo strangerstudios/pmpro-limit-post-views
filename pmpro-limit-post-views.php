@@ -325,6 +325,14 @@ function pmpro_lpv_plugin_action_links( $links ) {
 }
 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'pmpro_lpv_plugin_action_links' );
 
+/**
+ * Mark the plugin as MMPU-incompatible.
+ */
+function pmprolpv_mmpu_incompatible_add_ons( $incompatible ) {
+    $incompatible[] = 'PMPro Limit Post Views Add On';
+    return $incompatible;
+}
+add_filter( 'pmpro_mmpu_incompatible_add_ons', 'pmprolpv_mmpu_incompatible_add_ons' );
 
 /**
  * Function to add links to the plugin row meta
