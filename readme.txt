@@ -2,7 +2,7 @@
 Contributors: strangerstudios
 Tags: paid memberships pro, pmpro, nytimes, new york times, post limits, limit, posts
 Requires at least: 4.0
-Tested up to: 5.1
+Tested up to: 6.2
 Stable tag: .6
 
 Integrates with Paid Memberships Pro to limit the number of times non-members can view posts on your site.
