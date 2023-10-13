@@ -1,0 +1,83 @@
+# Copyright (C) 2023 Paid Memberships Pro
+# This file is distributed under the same license as the Paid Memberships Pro - Limit Post Views Add On plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Paid Memberships Pro - Limit Post Views Add On 0.6.1\n"
+"Report-Msgid-Bugs-To: info@paidmembershipspro.com\n"
+"Last-Translator: Paid Memberships Pro <info@paidmembershipspro.com>\n"
+"Language-Team: Paid Memberships Pro <info@paidmembershipspro.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-10-13T16:13:55+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.8.1\n"
+"X-Domain: pmpro-limit-post-views\n"
+
+#. Plugin Name of the plugin
+msgid "Paid Memberships Pro - Limit Post Views Add On"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://www.paidmembershipspro.com/add-ons/pmpro-limit-post-views/"
+msgstr ""
+
+#. Description of the plugin
+msgid "Integrates with Paid Memberships Pro to limit the number of times members and visitors can view posts on your site."
+msgstr ""
+
+#. Author of the plugin
+msgid "Paid Memberships Pro"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.paidmembershipspro.com"
+msgstr ""
+
+#: adminpages/limitpostviews.php:24
+msgid "Allow visitors or members limited access to view posts they do not already have access to view."
+msgstr ""
+
+#: adminpages/limitpostviews.php:40
+msgid " views per "
+msgstr ""
+
+#: adminpages/limitpostviews.php:43
+msgid "Hour"
+msgstr ""
+
+#: adminpages/limitpostviews.php:45
+msgid "Day"
+msgstr ""
+
+#: adminpages/limitpostviews.php:47
+msgid "Week"
+msgstr ""
+
+#: adminpages/limitpostviews.php:49
+msgid "Month"
+msgstr ""
+
+#: adminpages/limitpostviews.php:91
+msgid "If you have page caching enabled or the PHP redirect otherwise won't work, check this to add our JS code to protected pages."
+msgstr ""
+
+#: adminpages/limitpostviews.php:97
+msgid "Limit Post Views Add On"
+msgstr ""
+
+#: adminpages/limitpostviews.php:99
+msgid "How this Plugin Works"
+msgstr ""
+
+#: adminpages/limitpostviews.php:100
+msgid "Users who visit a post and don't have access to it will be allowed to view the post as long as they haven't reached their limits set below. Once their limit is reached, they will be redirected to the page set below."
+msgstr ""
+
+#: adminpages/limitpostviews.php:101
+msgid "By default, this plugin does not work with pages or other Custom Post Types. You can <a href='%s'>apply Limit Post Views to other post types by following the instructions here</a>."
+msgstr ""
+
+#: pmpro-limit-post-views.php:321
+msgid "Settings"
+msgstr ""
