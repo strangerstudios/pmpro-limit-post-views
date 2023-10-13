@@ -2,8 +2,8 @@
 Contributors: strangerstudios
 Tags: paid memberships pro, pmpro, nytimes, new york times, post limits, limit, posts
 Requires at least: 4.0
-Tested up to: 6.2
-Stable tag: .6
+Tested up to: 6.3
+Stable tag: 0.6.1
 
 Integrates with Paid Memberships Pro to limit the number of times non-members can view posts on your site.
 
@@ -30,6 +30,11 @@ Please post it in the GitHub issue tracker here: https://github.com/strangerstud
 Please visit our premium support site at http://www.paidmembershipspro.com for more documentation and our support forums.
 
 == Changelog ==
+= 0.6.1 - 2023-10-13 =
+BUG FIX/ENHANCEMENT: Marked plugin as incompatible with Multiple Memberships Per User for the PMPro v3.0 update. #52 (@dparker1005)
+BUG FIX: Fixed timezone issue where cookie expiration dates could be set in the past. (@ideadude)
+BUG FIX: Fixed errors in PHP 8+ when trying to access array indexes that do not exist. #49 (@JarrydLong)
+
 = .6 =
 * BUG FIX: Fixed issue with PMPro 2.0 menus.
 * ENHANCEMENT: Cleaned up the JavaScript code a bit.
