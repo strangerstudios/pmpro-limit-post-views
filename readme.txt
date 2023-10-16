@@ -31,9 +31,9 @@ Please visit our premium support site at http://www.paidmembershipspro.com for m
 
 == Changelog ==
 = 0.6.1 - 2023-10-13 =
-BUG FIX/ENHANCEMENT: Marked plugin as incompatible with Multiple Memberships Per User for the PMPro v3.0 update. #52 (@dparker1005)
-BUG FIX: Fixed timezone issue where cookie expiration dates could be set in the past. (@ideadude)
-BUG FIX: Fixed errors in PHP 8+ when trying to access array indexes that do not exist. #49 (@JarrydLong)
+* BUG FIX/ENHANCEMENT: Marked plugin as incompatible with Multiple Memberships Per User for the PMPro v3.0 update. #52 (@dparker1005)
+* BUG FIX: Fixed timezone issue where cookie expiration dates could be set in the past. (@ideadude)
+* BUG FIX: Fixed errors in PHP 8+ when trying to access array indexes that do not exist. #49 (@JarrydLong)
 
 = .6 =
 * BUG FIX: Fixed issue with PMPro 2.0 menus.
