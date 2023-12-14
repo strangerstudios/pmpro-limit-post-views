@@ -320,7 +320,10 @@ function pmpro_lpv_plugin_action_links( $links ) {
 		$new_links = array(
 			'<a href="' . get_admin_url( null, 'admin.php?page=pmpro-limitpostviews' ) . '">' . __( 'Settings', 'pmpro-limit-post-views' ) . '</a>',
 		);
-		array_merge( $new_links, $links );
+
+		if ( is_array( $links ) && is_array( $new_links ) ) {
+			$links = array_merge( $new_links, $links );
+		}
 	}
 	return $links;
 }
