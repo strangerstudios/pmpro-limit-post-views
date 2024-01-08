@@ -79,6 +79,7 @@ function pmpro_lpv_wp() {
 				return;
 			}
 
+		
 			$hasaccess = apply_filters( 'pmprolpv_has_membership_access', true, $queried_object );
 			if ( false === $hasaccess ) {
 				pmpro_lpv_redirect();
@@ -88,8 +89,6 @@ function pmpro_lpv_wp() {
 			if ( defined( 'PMPRO_LPV_USE_JAVASCRIPT' ) && PMPRO_LPV_USE_JAVASCRIPT ) {
 				wp_enqueue_script( 'wp-utils', includes_url( '/js/utils.js' ) );
 				add_action( 'wp_footer', 'pmpro_lpv_wp_footer' );
-				add_filter( 'pmpro_has_membership_access_filter', '__return_true' );
-
 				return;
 			}
 
@@ -181,11 +180,13 @@ add_action( 'wp', 'pmpro_lpv_wp' );
  * Redirect to  the configured page or the default levels page
  */
 function pmpro_lpv_redirect() {
-
+	
 	$page_id = get_option( 'pmprolpv_redirect_page' );
 
 	if ( empty( $page_id ) ) {
 		$redirect_url = pmpro_url( 'levels' );
+	} elseif ( $page_id === '-1' ) {
+		return; // If the option is set to "Don't redirect", just bail.
 	} else {
 		$redirect_url = get_the_permalink( $page_id );
 	}
@@ -210,13 +211,14 @@ function pmpro_lpv_wp_footer() {
 	}
 	
 	// Figure out the redirect URL.
-	$page_id = get_option( 'pmprolpv_redirect_page' );
+		$page_id = get_option( 'pmprolpv_redirect_page' );
 	if ( empty( $page_id ) ) {
 		$redirect_url = pmpro_url( 'levels' );
+	} elseif ( $page_id === '-1' ) {
+		$redirect_url = false;
 	} else {
 		$redirect_url = get_the_permalink( $page_id );
-	}
-	
+	}	
 	// Figure out the expiration period.
 	if ( defined( 'PMPRO_LPV_LIMIT_PERIOD' ) ) {
 		switch ( PMPRO_LPV_LIMIT_PERIOD ) {
@@ -292,8 +294,15 @@ function pmpro_lpv_wp_footer() {
 		}
 
 		// if count is above limit, redirect, otherwise update cookie.
-		if ( count > <?php echo intval( PMPRO_LPV_LIMIT ); ?>) {	
-			window.location.replace('<?php echo $redirect_url;?>');
+		if ( count > <?php echo intval( PMPRO_LPV_LIMIT ); ?>) {
+            <?php if ( $redirect_url ) { ?>
+                // Redirect to a specific URL
+            	window.location.replace('<?php echo $redirect_url; ?>');
+            <?php } else { ?>
+                if (performance.navigation.type !== 1) {
+               	location.reload();
+				}
+            <?php } ?>
 		} else {			
 			// put the cookie string back together with updated values.
 			var arrlen = newticks.length;
