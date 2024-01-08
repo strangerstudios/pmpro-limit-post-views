@@ -76,6 +76,8 @@ function pmprolpv_settings_field_redirect_page() {
 	wp_dropdown_pages( array(
 		'selected' => $page_id,
 		'name' => 'pmprolpv_redirect_page',
+		'show_option_none' => esc_html__( 'None - do not redirect', 'pmpro-limit-post-views' ),
+		'option_none_value' => -1
 	));
 }
 
