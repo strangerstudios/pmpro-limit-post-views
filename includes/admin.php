@@ -14,9 +14,9 @@
  * @since 0.3.0
  */
 function pmprolpv_admin_menu() {
-if ( ! defined( 'PMPRO_VERSION' ) ) {
-        return;
-    }
+	if ( ! defined( 'PMPRO_VERSION' ) ) {
+		return;
+	}
 	
 	$cap = apply_filters( 'pmpro_edit_member_capability', 'manage_options' );
 
@@ -34,7 +34,7 @@ add_action( 'admin_menu', 'pmprolpv_admin_menu' );
  * @since 0.3.0
  */
 function pmprolpv_settings_page() {
-	require_once( plugin_dir_path( __FILE__ ) . '../adminpages/limitpostviews.php' );
+	require_once( PMPROLPV_DIR . '/adminpages/limitpostviews.php' );
 }
 
 /**
@@ -97,21 +97,6 @@ function pmprolpv_admin_init() {
 		register_setting(
 			'pmpro-limitpostviews',
 			'pmprolpv_redirect_page'
-		);
-
-		// Register JavaScript settings field.
-		add_settings_field(
-			'pmprolpv_use_js',
-			'Use JavaScript redirection',
-			'pmprolpv_settings_field_use_js',
-			'pmpro-limitpostviews',
-			'pmprolpv_redirection'
-		);
-
-		// Register JavaScript setting.
-		register_setting(
-			'pmpro-limitpostviews',
-			'pmprolpv_use_js'
 		);
 	}
 }
