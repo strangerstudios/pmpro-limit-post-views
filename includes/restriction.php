@@ -1,0 +1,140 @@
+<?php
+
+/**
+ * Give all users access to all posts. LPV will redirect away if the user runs out of free views.
+ *
+ * @since TBD
+ *
+ * @param bool $has_access Whether the user has access to the post.
+ * @return bool $has_access True if the user has access to the post.
+ */
+function pmprolpv_has_membership_access_filter( $has_access ) {
+	return true;
+}
+add_filter( 'pmpro_has_membership_access_filter', 'pmprolpv_has_membership_access_filter' );
+
+/**
+ * Enqueue frontend script to restrict content when needed.
+ *
+ * @since TBD
+ */
+function pmprolpv_wp_enqueue_scripts() {
+	wp_register_script( 'pmprolpv', plugins_url( 'js/pmprolpv.js', PMPROLPV_BASE_FILE ), array( 'jquery' ), PMPROLPV_VERSION );
+	wp_localize_script( 'pmprolpv', 'pmprolpv', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+	wp_enqueue_script( 'pmprolpv' );
+}
+add_action( 'wp_enqueue_scripts', 'pmprolpv_wp_enqueue_scripts' );
+
+/**
+ * Handler for thepmprolpv_get_restriction_js AJAX endpoint.
+ *
+ * @since TBD
+ */
+function pmprolpv_get_restriction_js() {
+	// Check parameters.
+	if ( empty( $_REQUEST['url'] ) ) {
+		wp_send_json_error( 'No URL provided.' );
+	}
+
+	// Get the post ID for the passed URL.
+	$post_id = url_to_postid( $_REQUEST['url'] );
+	if ( empty( $post_id ) ) {
+		wp_send_json_error( 'Invalid URL.' );
+	}
+
+	// Unhook the LPV has_access filter to see if the user truly has access to this post.
+	remove_filter( 'pmpro_has_membership_access_filter', 'pmprolpv_has_membership_access_filter' );
+
+	// Check if the user has access to the post.
+	if ( pmpro_has_membership_access( $post_id ) ) {
+		wp_send_json_success( 'return;' );
+	}
+
+	// The user should not have access to this post. Check if they still have LPV views remaining.
+	// LPV post view data is stored in the cookie pmprolpv cookie as a string [post_id],[timestamp];
+	$lpv_data_string = isset( $_COOKIE['pmprolpv'] ) ? $_COOKIE['pmprolpv'] : '';
+	$lpv_data_array  = array();
+	foreach( explode( ';', $lpv_data_string ) as $lpv_data ) {
+		$lpv_data = explode( ',', $lpv_data );
+		$lpv_data_array[] = array(
+			'post_id' => $lpv_data[0],
+			'timestamp' => $lpv_data[1],
+		);
+	}
+
+	// Get the number of posts this hour, day, week, and month.
+	$lpv_data_period_counts = array(
+		'hour' => 0,
+		'day' => 0,
+		'week' => 0,
+		'month' => 0,
+	);
+	foreach ( $lpv_data_array as $lpv_data ) {
+		// Use a switch to waterfall through the different periods.
+		switch ( true ) {
+			case $lpv_data['timestamp'] >= strtotime( '-1 hour', current_time( 'timestamp' ) ):
+				$lpv_data_period_counts['hour']++;
+			case $lpv_data['timestamp'] >= strtotime( '-1 day', current_time( 'timestamp' ) ):
+				$lpv_data_period_counts['day']++;
+			case $lpv_data['timestamp'] >= strtotime( '-1 week', current_time( 'timestamp' ) ):
+				$lpv_data_period_counts['week']++;
+			case $lpv_data['timestamp'] >= strtotime( '-1 month', current_time( 'timestamp' ) ):
+				$lpv_data_period_counts['month']++;
+		}
+	}
+
+	// Get all of the user's current membership level IDs.
+	$user_levels    = pmpro_getMembershipLevelsForUser();
+	$user_level_ids = empty( $user_levels ) ? array( 0 ) : wp_list_pluck( $user_levels, 'ID' );
+
+	// Get the maximum remaining views for the user's membership levels.
+	$views_remaining = 0;
+	foreach ( $user_level_ids as $level_id ) {
+		// Get the limits for this level.
+		$level_limit = pmprolpv_get_level_limit( $level_id );
+
+		// Update $views_remaining based on this level's data.
+		$views_remaining = max( $views_remaining, $level_limit['views'] - $lpv_data_period_counts[ $level_limit['period'] ] );
+	}
+
+	// If the user has remaining views, track the view in the cookie and alert the number of views remaining.
+	if ( $views_remaining > 0 ) {
+		$lpv_data_string .= ';' . $post_id . ',' . current_time( 'timestamp' );
+		setcookie( 'pmprolpv', $lpv_data_string, current_time( 'timestamp' ) + 60 * 60 * 24 * 30, COOKIEPATH, COOKIE_DOMAIN );
+
+		// Decrement views_remaining now that we added a view.
+		$views_remaining--;
+
+		$notification_js = '';
+		/**
+		 * Filter the JavaScript to run when the user has remaining views.
+		 * For example, this can be used to show a popup or a banner with the remaining view count.
+		 *
+		 * @since TBD
+		 *
+		 * @param string $notification_js JavaScript to run when the user has remaining views.
+		 * @param int    $views_remaining Number of views remaining.
+		 */
+		$notification_js = apply_filters( 'pmprolpv_remaining_views_notification_js', $notification_js, $views_remaining );
+		wp_send_json_success( $notification_js );
+	}
+
+	// The user has used all of their views. Redirect them to the LPV redirect page.
+	$page_id = get_option( 'pmprolpv_redirect_page' );
+	$redirect_url = empty( $page_id ) ? pmpro_url( 'levels' ) : get_the_permalink( $page_id );
+	$restriction_js = 'window.location.href = "' . esc_url( $redirect_url ) . ' ";';
+	/**
+	 * Filter the JavaScript to run when the user has no remaining views.
+	 * For example, this could be used to blur the page and show a message or redirect.
+	 *
+	 * @since TBD
+	 *
+	 * @param string $restriction_js JavaScript to run when the user has no remaining views.
+	 * @param int    $post_id       ID of the post the user is trying to view.
+	 * @param int    $page_id       ID of the page to redirect to.
+	 */
+	$restriction_js = apply_filters( 'pmprolpv_no_remaining_views_js', $restriction_js );
+	wp_send_json_success( $restriction_js );
+}
+add_action( 'wp_ajax_pmprolpv_get_restriction_js', 'pmprolpv_get_restriction_js' );
+add_action( 'wp_ajax_nopriv_pmprolpv_get_restriction_js', 'pmprolpv_get_restriction_js' );

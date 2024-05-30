@@ -30,7 +30,7 @@ function pmprolpv_settings_section_limits() {
  * @since 0.3.0
  */
 function pmprolpv_settings_field_limits( $level_id ) {
-	$limit = pmpro_lpv_get_level_limit( $level_id );
+	$limit = pmprolpv_get_level_limit( $level_id );
 
 	$period = ( !empty( $limit['period'] ) ) ? $limit['period'] : '';
 	$views = ( !empty( $limit['views'] ) ) ? $limit['views'] : '';

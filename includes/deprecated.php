@@ -19,7 +19,7 @@ function pmprolpv_init() {
 			$level_id = 0;
 		}
 
-		$limit = pmpro_lpv_get_level_limit( $level_id );
+		$limit = pmprolpv_get_level_limit( $level_id );
 		if ( ! empty( $limit ) ) {
 			define( 'PMPRO_LPV_LIMIT', $limit['views'] );
 			define( 'PMPRO_LPV_LIMIT_PERIOD', $limit['period'] );
@@ -322,4 +322,12 @@ function pmprolpv_settings_field_use_js() {
 	<input value="1" type="checkbox" id="use_js" name="pmprolpv_use_js" <?php checked( $use_js, 1 ); ?>>
 	<label for="use_js"><?php _e("If you have page caching enabled or the PHP redirect otherwise won't work, check this to add our JS code to protected pages.", 'pmpro-limit-post-views' ); ?></label>
 	<?php
+}
+
+/**
+ * @deprecated TBD. Use pmprolpv_get_level_limit() insetad.
+ */
+function pmpro_lpv_get_level_limit( $level_id ) {
+	_deprecated_function( __FUNCTION__, 'TBD', 'pmprolpv_get_level_limit()' );
+	return pmprolpv_get_level_limit( $level_id );
 }
