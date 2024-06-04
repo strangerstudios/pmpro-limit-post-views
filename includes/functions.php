@@ -13,3 +13,21 @@ function pmprolpv_get_level_limit( $level_id ) {
 	);
 	return get_option( 'pmprolpv_limit_' . $level_id, $default_option );	
 }
+
+/**
+ * Check if we want to allow free views for a given post type.
+ *
+ * @param string $post_type The post type to check.
+ * @return bool True if we want to allow free views for this post type, false otherwise.
+ */
+function pmprolpv_allow_free_views_for_post_type( $post_type ) {
+	/**
+	 * Filter which post types should be tracked by LPV.
+	 *
+	 * @since 0.4
+	 *
+	 * @param array $allowed_post_types Array of post types to track.
+	 */
+	$allowed_post_types = apply_filters( 'pmprolpv_post_types', array( 'post' ) );
+	return is_string( $post_type ) && in_array( $post_type, $allowed_post_types, true );
+}

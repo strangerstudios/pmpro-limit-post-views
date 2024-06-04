@@ -6,9 +6,14 @@
  * @since TBD
  *
  * @param bool $has_access Whether the user has access to the post.
+ * @param WP_Post $post    The post being checked.
  * @return bool $has_access True if the user has access to the post.
  */
-function pmprolpv_has_membership_access_filter( $has_access ) {
+function pmprolpv_has_membership_access_filter( $has_access, $post ) {
+	// Check if we want to allow free views for this post type.
+	if ( empty( $post->post_type ) || ! pmprolpv_allow_free_views_for_post_type( $post->post_type ) ) {
+		return $has_access;
+	}
 	return true;
 }
 add_filter( 'pmpro_has_membership_access_filter', 'pmprolpv_has_membership_access_filter' );
@@ -40,6 +45,12 @@ function pmprolpv_get_restriction_js() {
 	$post_id = url_to_postid( $_REQUEST['url'] );
 	if ( empty( $post_id ) ) {
 		wp_send_json_error( 'Invalid URL.' );
+	}
+
+	// Check if we want to allow free views for this post type.
+	$post = get_post( $post_id );
+	if ( empty( $post ) || ! pmprolpv_allow_free_views_for_post_type( $post->post_type ) ) {
+		wp_send_json_success( 'return;' );
 	}
 
 	// Unhook the LPV has_access filter to see if the user truly has access to this post.
@@ -89,12 +100,22 @@ function pmprolpv_get_restriction_js() {
 
 	// Get the maximum remaining views for the user's membership levels.
 	$views_remaining = 0;
+	$level_views     = 0;
+	$level_period    = '';
 	foreach ( $user_level_ids as $level_id ) {
 		// Get the limits for this level.
 		$level_limit = pmprolpv_get_level_limit( $level_id );
 
 		// Update $views_remaining based on this level's data.
-		$views_remaining = max( $views_remaining, $level_limit['views'] - $lpv_data_period_counts[ $level_limit['period'] ] );
+		if ( $level_limit['views'] - $lpv_data_period_counts[ $level_limit['period'] ] > $views_remaining ) {
+			$views_remaining = $level_limit['views'] - $lpv_data_period_counts[ $level_limit['period'] ];
+			$level_views     = $level_limit['views'];
+			$level_period    = $level_limit['period'];
+		} elseif ( empty( $views_remaining ) && empty( $level_views ) && empty( $level_period ) && ! empty( $level_limit['views'] ) ) {
+			// In cases where we haven't found a level with views remaining, try to find a level with views set in case we want to show a banner with "used views" or something.
+			$level_views  = $level_limit['views'];
+			$level_period = $level_limit['period'];
+		}
 	}
 
 	// If the user has remaining views, track the view in the cookie and alert the number of views remaining.
@@ -107,15 +128,17 @@ function pmprolpv_get_restriction_js() {
 
 		$notification_js = '';
 		/**
-		 * Filter the JavaScript to run when the user has remaining views.
+		 * Filter the JavaScript to run when LPV grants access to a post.
 		 * For example, this can be used to show a popup or a banner with the remaining view count.
 		 *
 		 * @since TBD
 		 *
-		 * @param string $notification_js JavaScript to run when the user has remaining views.
+		 * @param string $notification_js JavaScript to run when LPV grants access to a post.
 		 * @param int    $views_remaining Number of views remaining.
+		 * @param int    $level_views     Number of views allowed for the user's level.
+		 * @param string $level_period    Period for the user's level.
 		 */
-		$notification_js = apply_filters( 'pmprolpv_remaining_views_notification_js', $notification_js, $views_remaining );
+		$notification_js = apply_filters( 'pmprolpv_allow_view_js', $notification_js, $views_remaining, $level_views, $level_period );
 		wp_send_json_success( $notification_js );
 	}
 
@@ -124,16 +147,16 @@ function pmprolpv_get_restriction_js() {
 	$redirect_url = empty( $page_id ) ? pmpro_url( 'levels' ) : get_the_permalink( $page_id );
 	$restriction_js = 'window.location.href = "' . esc_url( $redirect_url ) . ' ";';
 	/**
-	 * Filter the JavaScript to run when the user has no remaining views.
+	 * Filter the JavaScript to run when LPV denies access to a post.
 	 * For example, this could be used to blur the page and show a message or redirect.
 	 *
 	 * @since TBD
 	 *
-	 * @param string $restriction_js JavaScript to run when the user has no remaining views.
-	 * @param int    $post_id       ID of the post the user is trying to view.
-	 * @param int    $page_id       ID of the page to redirect to.
+	 * @param string $restriction_js JavaScript to run when LPV denies access to a post.
+	 * @param int    $level_views    Number of views allowed for the user's level.
+	 * @param string $level_period   Period for the user's level.
 	 */
-	$restriction_js = apply_filters( 'pmprolpv_no_remaining_views_js', $restriction_js );
+	$restriction_js = apply_filters( 'pmprolpv_deny_view_js', $restriction_js, $level_views, $level_period );
 	wp_send_json_success( $restriction_js );
 }
 add_action( 'wp_ajax_pmprolpv_get_restriction_js', 'pmprolpv_get_restriction_js' );
