@@ -16,7 +16,7 @@ function pmprolpv_has_membership_access_filter( $has_access, $post ) {
 	}
 	return true;
 }
-add_filter( 'pmpro_has_membership_access_filter', 'pmprolpv_has_membership_access_filter' );
+add_filter( 'pmpro_has_membership_access_filter', 'pmprolpv_has_membership_access_filter', 10, 2 );
 
 /**
  * Enqueue frontend script to restrict content when needed.
@@ -54,7 +54,7 @@ function pmprolpv_get_restriction_js() {
 	}
 
 	// Unhook the LPV has_access filter to see if the user truly has access to this post.
-	remove_filter( 'pmpro_has_membership_access_filter', 'pmprolpv_has_membership_access_filter' );
+	remove_filter( 'pmpro_has_membership_access_filter', 'pmprolpv_has_membership_access_filter', 10, 2 );
 
 	// Check if the user has access to the post.
 	if ( pmpro_has_membership_access( $post_id ) ) {
