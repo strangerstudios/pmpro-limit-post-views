@@ -133,12 +133,13 @@ function pmprolpv_get_restriction_js() {
 		 *
 		 * @since TBD
 		 *
-		 * @param string $notification_js JavaScript to run when LPV grants access to a post.
-		 * @param int    $views_remaining Number of views remaining.
-		 * @param int    $level_views     Number of views allowed for the user's level.
-		 * @param string $level_period    Period for the user's level.
+		 * @param string  $notification_js JavaScript to run when LPV grants access to a post.
+		 * @param int     $views_remaining Number of views remaining.
+		 * @param int     $level_views     Number of views allowed for the user's level.
+		 * @param string  $level_period    Period for the user's level.
+		 * @param WP_POST $post            The post being viewed.
 		 */
-		$notification_js = apply_filters( 'pmprolpv_allow_view_js', $notification_js, $views_remaining, $level_views, $level_period );
+		$notification_js = apply_filters( 'pmprolpv_allow_view_js', $notification_js, $views_remaining, $level_views, $level_period, $post );
 		wp_send_json_success( $notification_js );
 	}
 
@@ -155,8 +156,9 @@ function pmprolpv_get_restriction_js() {
 	 * @param string $restriction_js JavaScript to run when LPV denies access to a post.
 	 * @param int    $level_views    Number of views allowed for the user's level.
 	 * @param string $level_period   Period for the user's level.
+	 * @param WP_POST $post          The post being viewed.
 	 */
-	$restriction_js = apply_filters( 'pmprolpv_deny_view_js', $restriction_js, $level_views, $level_period );
+	$restriction_js = apply_filters( 'pmprolpv_deny_view_js', $restriction_js, $level_views, $level_period, $post );
 	wp_send_json_success( $restriction_js );
 }
 add_action( 'wp_ajax_pmprolpv_get_restriction_js', 'pmprolpv_get_restriction_js' );
