@@ -4,10 +4,10 @@
  * Set up limit and whether or not to use JavaScript.
  *
  * @since 0.3.0
- * @deprecated TBD
+ * @deprecated 1.0
  */
 function pmprolpv_init() {
-	_deprecated_function( __FUNCTION__, 'TBD' );
+	_deprecated_function( __FUNCTION__, '1.0' );
 
 	// Check for backwards compatibility.
 	if ( ! defined( 'PMPRO_LPV_LIMIT' ) ) {
@@ -37,10 +37,10 @@ function pmprolpv_init() {
  * Limit post views or load JS to do the same.
  * Used to hook into wp action: add_action( 'wp', 'pmpro_lpv_wp' );
  *
- * @deprecated TBD
+ * @deprecated 1.0
  */
 function pmpro_lpv_wp() {
-	_deprecated_function( __FUNCTION__, 'TBD' );
+	_deprecated_function( __FUNCTION__, '1.0' );
 
 	global $current_user;
 	if ( function_exists( 'pmpro_has_membership_access' ) ) {
@@ -161,10 +161,10 @@ function pmpro_lpv_wp() {
 /**
  * Redirect to  the configured page or the default levels page
  *
- * @deprecated TBD
+ * @deprecated 1.0
  */
 function pmpro_lpv_redirect() {
-	_deprecated_function( __FUNCTION__, 'TBD' );
+	_deprecated_function( __FUNCTION__, '1.0' );
 
 	$page_id = get_option( 'pmprolpv_redirect_page' );
 
@@ -182,10 +182,10 @@ function pmpro_lpv_redirect() {
  * Javascript limit (hooks for these are above)
  * This is only loaded on pages that are locked for members
  *
- * @deprecated TBD
+ * @deprecated 1.0
  */
 function pmpro_lpv_wp_footer() {
-	_deprecated_function( __FUNCTION__, 'TBD' );
+	_deprecated_function( __FUNCTION__, '1.0' );
 
 	global $current_user;
 	
@@ -301,10 +301,10 @@ function pmpro_lpv_wp_footer() {
 /**
  * Mark the plugin as MMPU-incompatible.
  *
- * @deprecated TBD
+ * @deprecated 1.0
  */
 function pmprolpv_mmpu_incompatible_add_ons( $incompatible ) {
-	_deprecated_function( __FUNCTION__, 'TBD' );
+	_deprecated_function( __FUNCTION__, '1.0' );
 	$incompatible[] = 'PMPro Limit Post Views Add On';
 	return $incompatible;
 }
@@ -313,10 +313,10 @@ function pmprolpv_mmpu_incompatible_add_ons( $incompatible ) {
  * Display JavaScript field.
  *
  * @since 0.3.0
- * @deprecated TBD
+ * @deprecated 1.0
  */
 function pmprolpv_settings_field_use_js() {
-	_deprecated_function( __FUNCTION__, 'TBD' );
+	_deprecated_function( __FUNCTION__, '1.0' );
 	$use_js = get_option( 'pmprolpv_use_js' );
 	?>
 	<input value="1" type="checkbox" id="use_js" name="pmprolpv_use_js" <?php checked( $use_js, 1 ); ?>>
@@ -325,9 +325,9 @@ function pmprolpv_settings_field_use_js() {
 }
 
 /**
- * @deprecated TBD. Use pmprolpv_get_level_limit() insetad.
+ * @deprecated 1.0. Use pmprolpv_get_level_limit() insetad.
  */
 function pmpro_lpv_get_level_limit( $level_id ) {
-	_deprecated_function( __FUNCTION__, 'TBD', 'pmprolpv_get_level_limit()' );
+	_deprecated_function( __FUNCTION__, '1.0', 'pmprolpv_get_level_limit()' );
 	return pmprolpv_get_level_limit( $level_id );
 }

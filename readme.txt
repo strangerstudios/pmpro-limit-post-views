@@ -3,7 +3,7 @@ Contributors: strangerstudios
 Tags: paid memberships pro, pmpro, nytimes, new york times, post limits, limit, posts
 Requires at least: 4.0
 Tested up to: 6.3
-Stable tag: 0.6.1
+Stable tag: 1.0
 
 Integrates with Paid Memberships Pro to limit the number of times non-members can view posts on your site.
 
@@ -30,6 +30,16 @@ Please post it in the GitHub issue tracker here: https://github.com/strangerstud
 Please visit our premium support site at http://www.paidmembershipspro.com for more documentation and our support forums.
 
 == Changelog ==
+= 1.0 - 2024-06-06 =
+* FEATURE: Custom JavaScript can now be run when LPV is granting access to restricted content using the `pmprolpv_allow_view_js` filter.
+* FEATURE: Custom JavaScript can now be run when LPV is denying access to content using the `pmprolpv_deny_view_js` filter.
+* ENHANCEMENT: Overhauled the view tracking cookie data structure for simplicity and to allow for future enhancements.
+* BUG FIX/ENHANCEMENT: Added support for Multiple Memberships Per User.
+* BUG FIX/ENHANCEMENT: View tracking and content restriction are now performed using an AJAX call to avoid caching issues.
+* REFACTOR: Organized plugin code into separate files.
+* DEPRECATED: Removed the option to redirect from restricted content with PHP.
+* DEPRECATED: No longer tracking views per level. If the user has multiple levels, LPV will track views until the total number of views surpasses the limit for all of their levels.
+
 = 0.6.1 - 2023-10-13 =
 * BUG FIX/ENHANCEMENT: Marked plugin as incompatible with Multiple Memberships Per User for the PMPro v3.0 update. #52 (@dparker1005)
 * BUG FIX: Fixed timezone issue where cookie expiration dates could be set in the past. (@ideadude)
