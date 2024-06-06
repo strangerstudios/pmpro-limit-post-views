@@ -3,7 +3,7 @@
 /**
  * Give all users access to all posts. LPV will redirect away if the user runs out of free views.
  *
- * @since TBD
+ * @since 1.0
  *
  * @param bool $has_access Whether the user has access to the post.
  * @param WP_Post $post    The post being checked.
@@ -11,7 +11,7 @@
  */
 function pmprolpv_has_membership_access_filter( $has_access, $post ) {
 	// Check if we want to allow free views for this post type.
-	if ( empty( $post->post_type ) || ! pmprolpv_allow_free_views_for_post_type( $post->post_type ) ) {
+	if ( ! pmprolpv_allow_free_views_for_post( $post ) ) {
 		return $has_access;
 	}
 	return true;
@@ -21,7 +21,7 @@ add_filter( 'pmpro_has_membership_access_filter', 'pmprolpv_has_membership_acces
 /**
  * Enqueue frontend script to restrict content when needed.
  *
- * @since TBD
+ * @since 1.0
  */
 function pmprolpv_wp_enqueue_scripts() {
 	wp_register_script( 'pmprolpv', plugins_url( 'js/pmprolpv.js', PMPROLPV_BASE_FILE ), array( 'jquery' ), PMPROLPV_VERSION );
@@ -33,7 +33,7 @@ add_action( 'wp_enqueue_scripts', 'pmprolpv_wp_enqueue_scripts' );
 /**
  * Handler for thepmprolpv_get_restriction_js AJAX endpoint.
  *
- * @since TBD
+ * @since 1.0
  */
 function pmprolpv_get_restriction_js() {
 	// Check parameters.
@@ -49,7 +49,7 @@ function pmprolpv_get_restriction_js() {
 
 	// Check if we want to allow free views for this post type.
 	$post = get_post( $post_id );
-	if ( empty( $post ) || ! pmprolpv_allow_free_views_for_post_type( $post->post_type ) ) {
+	if ( ! pmprolpv_allow_free_views_for_post( $post ) ) {
 		wp_send_json_success( 'return;' );
 	}
 
@@ -131,7 +131,7 @@ function pmprolpv_get_restriction_js() {
 		 * Filter the JavaScript to run when LPV grants access to a post.
 		 * For example, this can be used to show a popup or a banner with the remaining view count.
 		 *
-		 * @since TBD
+		 * @since 1.0
 		 *
 		 * @param string  $notification_js JavaScript to run when LPV grants access to a post.
 		 * @param int     $views_remaining Number of views remaining.
@@ -151,7 +151,7 @@ function pmprolpv_get_restriction_js() {
 	 * Filter the JavaScript to run when LPV denies access to a post.
 	 * For example, this could be used to blur the page and show a message or redirect.
 	 *
-	 * @since TBD
+	 * @since 1.0
 	 *
 	 * @param string $restriction_js JavaScript to run when LPV denies access to a post.
 	 * @param int    $level_views    Number of views allowed for the user's level.
