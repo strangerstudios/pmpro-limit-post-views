@@ -16,12 +16,37 @@ if ( ! current_user_can( apply_filters( 'pmpro_edit_member_capability', 'manage_
 require_once( PMPRO_DIR . '/adminpages/admin_header.php' );
 
 /**
- * Display membership limits section.
+ * Display non-member limits section.
  *
  * @since 0.3.0
  */
-function pmprolpv_settings_section_limits() {
-	echo '<p>' . esc_html( __( 'Allow visitors or members limited access to view posts they do not already have access to view.', 'pmpro-limit-post-views' ) ) . '</p>';
+function pmprolpv_settings_section_non_member_limits() { ?>
+	<div id="pmprolpv-non-member-limits" class="pmpro_section_toggle" data-visibility="hidden" data-activated="false">
+		<button class="pmpro_section-toggle-button" type="button" aria-expanded="false">
+			<span class="dashicons dashicons-arrow-up-alt2"></span>
+			<?php esc_html_e( 'Non-Member Post Views', 'pmpro-limit-post-views' ); ?>
+		</button>
+	</div>
+	<div class="pmpro_section_inside">
+		<p><?php esc_html_e( 'Give non-members limited access to view protected posts. This setting includes site visitors and logged-in users without an active membership level.', 'pmpro-limit-post-views' ); ?></p>
+	<?php
+}
+
+/**
+ * Display member limits section.
+ *
+ * @since 0.3.0
+ */
+function pmprolpv_settings_section_member_limits() { ?>
+	<div id="pmprolpv-member-limits" class="pmpro_section_toggle" data-visibility="hidden" data-activated="false">
+		<button class="pmpro_section-toggle-button" type="button" aria-expanded="false">
+			<span class="dashicons dashicons-arrow-down-alt2"></span>
+			<?php esc_html_e( 'Member Post Views', 'pmpro-limit-post-views' ); ?>
+		</button>
+	</div>
+	<div class="pmpro_section_inside" style="display: none;">
+		<p><?php esc_html_e( 'Give members limited access to view posts that they do not already have access to view.', 'pmpro-limit-post-views' ); ?></p>
+	<?php
 }
 
 /**
@@ -32,10 +57,10 @@ function pmprolpv_settings_section_limits() {
 function pmprolpv_settings_field_limits( $level_id ) {
 	$limit = pmprolpv_get_level_limit( $level_id );
 
-	$period = ( !empty( $limit['period'] ) ) ? $limit['period'] : '';
+	$period = ( !empty( $limit['period'] ) ) ? $limit['period'] : 'month';
 	$views = ( !empty( $limit['views'] ) ) ? $limit['views'] : '';
 	?>
-	<input size="2" type="text" id="level_<?php echo esc_attr( $level_id ); ?>_views"
+	<input size="2" type="number" id="level_<?php echo esc_attr( $level_id ); ?>_views"
 	       name="pmprolpv_limit_<?php echo esc_attr( $level_id ); ?>[views]" value="<?php echo esc_attr( $views ); ?>">
 	<?php esc_html_e( ' views per ', 'pmpro-limit-post-views' ); ?>
 	<select name="pmprolpv_limit_<?php echo esc_attr( $level_id ); ?>[period]" id="level_<?php echo esc_attr( $level_id ); ?>_period">
@@ -56,7 +81,15 @@ function pmprolpv_settings_field_limits( $level_id ) {
  *
  * @since 0.3.0
  */
-function pmprolpv_settings_section_redirection() {
+function pmprolpv_settings_section_redirection() { ?>
+	<div id="pmprolpv-redirection" class="pmpro_section_toggle" data-visibility="hidden" data-activated="false">
+		<button class="pmpro_section-toggle-button" type="button" aria-expanded="false">
+			<span class="dashicons dashicons-arrow-up-alt2"></span>
+			<?php esc_html_e( 'Redirection Settings', 'pmpro-limit-post-views' ); ?>
+		</button>
+	</div>
+	<div class="pmpro_section_inside">
+	<?php
 }
 
 /**
@@ -74,19 +107,17 @@ function pmprolpv_settings_field_redirect_page() {
 	}
 
 	wp_dropdown_pages( array(
-		'selected' => $page_id,
+		'selected' => esc_html( $page_id ),
 		'name' => 'pmprolpv_redirect_page',
-	));
+	) );
+
+	echo '<p class="description">' . esc_html( __( 'Set the page to redirect users to once they have reached their view limit.', 'pmpro-limit-post-views' ) ) . '</p>';
+
 }
 
 // Display settings page.
 ?>
-	<h1><?php esc_html_e( 'Limit Post Views Add On', 'pmpro-limit-post-views' ); ?></h1>	
-	<hr />
-	<h2><?php esc_html_e( 'How this Plugin Works', 'pmpro-limit-post-views' );?></h2>
-	<p><?php _e( "Users who visit a post and don't have access to it will be allowed to view the post as long as they haven't reached their limits set below. Once their limit is reached, they will be redirected to the page set below.", 'pmpro-limit-post-views'); ?>
-	<p><?php printf( __( "By default, this plugin does not work with pages or other Custom Post Types. You can <a href='%s'>apply Limit Post Views to other post types by following the instructions here</a>.", 'pmpro-limit-post-views' ), 'https://www.paidmembershipspro.com/offer-limited-access-to-restricted-page-or-custom-post-type-content-using-the-limit-post-views-add-on/' ); ?></p>
-	<hr />
+	<h1><?php esc_html_e( 'Limit Post Views Settings', 'pmpro-limit-post-views' ); ?></h1>
 	<form action="options.php" method="POST">
 		<?php settings_fields( 'pmpro-limitpostviews' ); ?>
 		<?php do_settings_sections( 'pmpro-limitpostviews' ); ?>
