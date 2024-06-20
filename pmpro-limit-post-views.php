@@ -54,8 +54,8 @@ add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'pmprolpv_plug
 function pmprolpv_plugin_row_meta( $links, $file ) {
 	if ( strpos( $file, 'pmpro-limit-post-views.php' ) !== false ) {
 		$new_links = array(
-			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/add-ons/pmpro-limit-post-views/' ) . '" title="' . esc_attr( __( 'View Documentation', 'limit-post-views' ) ) . '">' . __( 'Docs', 'limit-post-views' ) . '</a>',
-			'<a href="' . esc_url( 'http://paidmembershipspro.com/support/' ) . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'limit-post-views' ) ) . '">' . __( 'Support', 'limit-post-views' ) . '</a>',
+			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/add-ons/pmpro-limit-post-views/' ) . '" title="' . esc_attr( __( 'View Documentation', 'pmpro-limit-post-views' ) ) . '">' . __( 'Docs', 'pmpro-limit-post-views' ) . '</a>',
+			'<a href="' . esc_url( 'http://paidmembershipspro.com/support/' ) . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro-limit-post-views' ) ) . '">' . __( 'Support', 'pmpro-limit-post-views' ) . '</a>',
 		);
 		$links = array_merge( $links, $new_links );
 	}
