@@ -24,7 +24,7 @@ add_filter( 'pmpro_has_membership_access_filter', 'pmprolpv_has_membership_acces
  * @since 1.0
  */
 function pmprolpv_wp_enqueue_scripts() {
-	wp_register_script( 'pmprolpv', plugins_url( 'js/pmprolpv.js', PMPROLPV_BASE_FILE ), array( 'jquery' ), PMPROLPV_VERSION );
+	wp_register_script( 'pmprolpv', plugins_url( 'js/pmprolpv.js', PMPROLPV_BASE_FILE ), array( 'jquery' ), PMPROLPV_VERSION, array( 'in_footer' => true ) );
 	wp_localize_script( 'pmprolpv', 'pmprolpv', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 	wp_enqueue_script( 'pmprolpv' );
 }
