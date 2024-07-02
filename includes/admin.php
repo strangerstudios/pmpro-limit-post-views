@@ -21,9 +21,9 @@ function pmprolpv_admin_menu() {
 	$cap = apply_filters( 'pmpro_edit_member_capability', 'manage_options' );
 
 	if( version_compare( PMPRO_VERSION, '2.0' ) >= 0 ) {
-		add_submenu_page( 'pmpro-dashboard', __( 'Limit Post Views', 'pmpro-limit-post-views' ), __( 'Limit Post View', 'pmpro-limit-post-views' ), $cap, 'pmpro-limitpostviews', 'pmprolpv_settings_page' );
+		add_submenu_page( 'pmpro-dashboard', __( 'Limit Post Views', 'pmpro-limit-post-views' ), __( 'Limit Post Views', 'pmpro-limit-post-views' ), $cap, 'pmpro-limitpostviews', 'pmprolpv_settings_page' );
 	} else {
-		add_submenu_page( 'pmpro-membershiplevels', __( 'Limit Post Views', 'pmpro-limit-post-views' ), __( 'Limit Post View', 'pmpro-limit-post-views' ), $cap, 'pmpro-limitpostviews', 'pmprolpv_settings_page' );
+		add_submenu_page( 'pmpro-membershiplevels', __( 'Limit Post Views', 'pmpro-limit-post-views' ), __( 'Limit Post Views', 'pmpro-limit-post-views' ), $cap, 'pmpro-limitpostviews', 'pmprolpv_settings_page' );
 	}
 }
 add_action( 'admin_menu', 'pmprolpv_admin_menu' );
@@ -44,26 +44,61 @@ function pmprolpv_settings_page() {
  */
 function pmprolpv_admin_init() {
 	if ( function_exists( 'pmpro_getAllLevels' ) ) {
-		// Register limits settings section.
+		// Register non-member limits settings section.
 		add_settings_section(
-			'pmprolpv_limits',
-			'Membership Post View Limits',
-			'pmprolpv_settings_section_limits',
-			'pmpro-limitpostviews'
+			'pmprolpv_non_member_limits',
+			'',
+			'pmprolpv_settings_section_non_member_limits',
+			'pmpro-limitpostviews',
+			array(
+				'before_section' => '<div class="pmpro_section">',
+				'after_section' => '</div></div>',
+			),
+		);
+
+		// Register member limits settings section.
+		add_settings_section(
+			'pmprolpv_member_limits',
+			'',
+			'pmprolpv_settings_section_member_limits',
+			'pmpro-limitpostviews',
+			array(
+				'before_section' => '<div class="pmpro_section">',
+				'after_section' => '</div></div>',
+			),
 		);
 
 		// Register redirection settings section.
 		add_settings_section(
 			'pmprolpv_redirection',
-			'Redirection',
+			'',
 			'pmprolpv_settings_section_redirection',
-			'pmpro-limitpostviews'
+			'pmpro-limitpostviews',
+			array(
+				'before_section' => '<div class="pmpro_section">',
+				'after_section' => '</div></div>',
+			),
 		);
 
-		// Register limits settings fields.
+		// Register non-member limit settings field.
+		add_settings_field(
+			'pmprolpv_limit_0',
+			__( 'Non-members', 'pmpro-limit-post-views' ),
+			'pmprolpv_settings_field_limits',
+			'pmpro-limitpostviews',
+			'pmprolpv_non_member_limits',
+			0
+		);
+
+		// Register JavaScript setting.
+		register_setting(
+			'pmpro-limitpostviews',
+			'pmprolpv_limit_0',
+			'pmprolpv_sanitize_limit'
+		);
+
+		// Register member limit settings field.
 		$levels = pmpro_getAllLevels( true, true );
-		$levels[0] = new stdClass();
-		$levels[0]->name = __( 'Non-members', 'pmpro' );
 		asort( $levels );
 		foreach ( $levels as $id => $level ) {
 			$title = $level->name;
@@ -72,7 +107,7 @@ function pmprolpv_admin_init() {
 				$title,
 				'pmprolpv_settings_field_limits',
 				'pmpro-limitpostviews',
-				'pmprolpv_limits',
+				'pmprolpv_member_limits',
 				$id
 			);
 
@@ -87,7 +122,7 @@ function pmprolpv_admin_init() {
 		// Register redirection settings field.
 		add_settings_field(
 			'pmprolpv_redirect_page',
-			'Redirect to',
+			__( 'Redirect to', 'pmpro-limit-post-views' ),
 			'pmprolpv_settings_field_redirect_page',
 			'pmpro-limitpostviews',
 			'pmprolpv_redirection'
