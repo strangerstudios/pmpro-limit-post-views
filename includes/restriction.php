@@ -50,7 +50,7 @@ function pmprolpv_get_restriction_js() {
 	// Check if we want to allow free views for this post type.
 	$post = get_post( $post_id );
 	if ( ! pmprolpv_allow_free_views_for_post( $post ) ) {
-		wp_send_json_success( 'return;' );
+		wp_send_json_success( '' );
 	}
 
 	// Unhook the LPV has_access filter to see if the user truly has access to this post.
@@ -58,7 +58,7 @@ function pmprolpv_get_restriction_js() {
 
 	// Check if the user has access to the post.
 	if ( pmpro_has_membership_access( $post_id ) ) {
-		wp_send_json_success( 'return;' );
+		wp_send_json_success( '' );
 	}
 
 	// The user should not have access to this post. Check if they still have LPV views remaining.
