@@ -65,10 +65,10 @@ function pmprolpv_get_restriction_js() {
 	// LPV post view data is stored in the cookie pmprolpv cookie as a string [post_id],[timestamp];
 	$lpv_data_string = isset( $_COOKIE['pmprolpv'] ) ? $_COOKIE['pmprolpv'] : '';
 	$lpv_data_array  = array();
-	if (!empty($lpv_data_string)) {
-	    foreach (explode(';', $lpv_data_string) as $lpv_data) {
-		$lpv_data_parts = explode(',', $lpv_data);
-		if (count($lpv_data_parts) === 2) {
+	if ( ! empty( $lpv_data_string ) ) {
+	    foreach ( explode( ';', $lpv_data_string ) as $lpv_data ) {
+		$lpv_data_parts = explode( ',', $lpv_data );
+		if ( count( $lpv_data_parts ) === 2 ) {
 		    $lpv_data_array[] = array(
 			'post_id' => (int) $lpv_data_parts[0],
 			'timestamp' => (int) $lpv_data_parts[1],
@@ -85,20 +85,20 @@ function pmprolpv_get_restriction_js() {
 		'month' => 0,
 	);
 
-	$current_time = current_time('timestamp');
+	$current_time = current_time( 'timestamp' );
 
-	foreach ($lpv_data_array as $lpv_data) {
+	foreach ( $lpv_data_array as $lpv_data ) {
 	    $viewed_time = $lpv_data['timestamp'];
-	    if ($viewed_time >= strtotime('-1 hour', $current_time)) {
+	    if ( $viewed_time >= strtotime( '-1 hour', $current_time ) ) {
 	        $lpv_data_period_counts['hour']++;
 	    }
-	    if ($viewed_time >= strtotime('-1 day', $current_time)) {
+	    if ( $viewed_time >= strtotime( '-1 day', $current_time ) ) {
 	        $lpv_data_period_counts['day']++;
 	    }
-	    if ($viewed_time >= strtotime('-1 week', $current_time)) {
+	    if ( $viewed_time >= strtotime( '-1 week', $current_time ) ) {
 	        $lpv_data_period_counts['week']++;
 	    }
-	    if ($viewed_time >= strtotime('-1 month', $current_time)) {
+	    if ( $viewed_time >= strtotime( '-1 month', $current_time ) ) {
 	        $lpv_data_period_counts['month']++;
 	    }
 	}
