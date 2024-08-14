@@ -18,7 +18,7 @@ require_once( PMPRO_DIR . '/adminpages/admin_header.php' );
 /**
  * Display non-member limits section.
  *
- * @since TBD
+ * @since 1.0.1
  */
 function pmprolpv_settings_section_non_member_limits() { ?>
 	<div id="pmprolpv-non-member-limits" class="pmpro_section_toggle" data-visibility="hidden" data-activated="false">
@@ -35,7 +35,7 @@ function pmprolpv_settings_section_non_member_limits() { ?>
 /**
  * Display member limits section.
  *
- * @since TBD
+ * @since 1.0.1
  */
 function pmprolpv_settings_section_member_limits() { ?>
 	<div id="pmprolpv-member-limits" class="pmpro_section_toggle" data-visibility="hidden" data-activated="false">
