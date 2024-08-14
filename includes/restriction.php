@@ -65,12 +65,16 @@ function pmprolpv_get_restriction_js() {
 	// LPV post view data is stored in the cookie pmprolpv cookie as a string [post_id],[timestamp];
 	$lpv_data_string = isset( $_COOKIE['pmprolpv'] ) ? $_COOKIE['pmprolpv'] : '';
 	$lpv_data_array  = array();
-	foreach( explode( ';', $lpv_data_string ) as $lpv_data ) {
-		$lpv_data = explode( ',', $lpv_data );
-		$lpv_data_array[] = array(
-			'post_id' => $lpv_data[0],
-			'timestamp' => $lpv_data[1],
-		);
+	if ( ! empty( $lpv_data_string ) ) {
+	    foreach ( explode( ';', $lpv_data_string ) as $lpv_data ) {
+		$lpv_data_parts = explode( ',', $lpv_data );
+		if ( count( $lpv_data_parts ) === 2 ) {
+		    $lpv_data_array[] = array(
+			'post_id' => (int) $lpv_data_parts[0],
+			'timestamp' => (int) $lpv_data_parts[1],
+		    );
+		}
+	    }
 	}
 
 	// Get the number of posts this hour, day, week, and month.
@@ -80,18 +84,23 @@ function pmprolpv_get_restriction_js() {
 		'week' => 0,
 		'month' => 0,
 	);
+
+	$current_time = current_time( 'timestamp' );
+
 	foreach ( $lpv_data_array as $lpv_data ) {
-		// Use a switch to waterfall through the different periods.
-		switch ( true ) {
-			case $lpv_data['timestamp'] >= strtotime( '-1 hour', current_time( 'timestamp' ) ):
-				$lpv_data_period_counts['hour']++;
-			case $lpv_data['timestamp'] >= strtotime( '-1 day', current_time( 'timestamp' ) ):
-				$lpv_data_period_counts['day']++;
-			case $lpv_data['timestamp'] >= strtotime( '-1 week', current_time( 'timestamp' ) ):
-				$lpv_data_period_counts['week']++;
-			case $lpv_data['timestamp'] >= strtotime( '-1 month', current_time( 'timestamp' ) ):
-				$lpv_data_period_counts['month']++;
-		}
+	    $viewed_time = $lpv_data['timestamp'];
+	    if ( $viewed_time >= strtotime( '-1 hour', $current_time ) ) {
+	        $lpv_data_period_counts['hour']++;
+	    }
+	    if ( $viewed_time >= strtotime( '-1 day', $current_time ) ) {
+	        $lpv_data_period_counts['day']++;
+	    }
+	    if ( $viewed_time >= strtotime( '-1 week', $current_time ) ) {
+	        $lpv_data_period_counts['week']++;
+	    }
+	    if ( $viewed_time >= strtotime( '-1 month', $current_time ) ) {
+	        $lpv_data_period_counts['month']++;
+	    }
 	}
 
 	// Get all of the user's current membership level IDs.
@@ -120,8 +129,8 @@ function pmprolpv_get_restriction_js() {
 
 	// If the user has remaining views, track the view in the cookie and alert the number of views remaining.
 	if ( $views_remaining > 0 ) {
-		$lpv_data_string .= ';' . $post_id . ',' . current_time( 'timestamp' );
-		setcookie( 'pmprolpv', $lpv_data_string, current_time( 'timestamp' ) + 60 * 60 * 24 * 30, COOKIEPATH, COOKIE_DOMAIN );
+		$lpv_data_string .= ';' . $post_id . ',' . $current_time;
+		setcookie( 'pmprolpv', $lpv_data_string, $current_time + 60 * 60 * 24 * 30, COOKIEPATH, COOKIE_DOMAIN );
 
 		// Decrement views_remaining now that we added a view.
 		$views_remaining--;
