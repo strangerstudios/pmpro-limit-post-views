@@ -53,10 +53,16 @@ function pmprolpv_get_restriction_js() {
 		wp_send_json_success( 'return;' );
 	}
 
+	// Check if the user has access to the post.
+	// If they don't even when we are filtering to true, then another plugin is blocking access. Let them continue handling it.
+	if ( ! pmpro_has_membership_access( $post_id ) ) {
+		wp_send_json_success( '' );
+	}
+
 	// Unhook the LPV has_access filter to see if the user truly has access to this post.
 	remove_filter( 'pmpro_has_membership_access_filter', 'pmprolpv_has_membership_access_filter', 10, 2 );
 
-	// Check if the user has access to the post.
+	// Check if the user has access to the post. If they do, then they don't need to use a LPV view to access this content.
 	if ( pmpro_has_membership_access( $post_id ) ) {
 		wp_send_json_success( 'return;' );
 	}
