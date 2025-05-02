@@ -1,6 +1,6 @@
 ---
 name: "🐛 Bug Report"
-about: Report a bug if something isn't working as expected in Paid Memberships Pro.
+about: Report a bug if something isn't working as expected in Paid Memberships Pro - Limit Post Views.
 title: ''
 labels: 'bug'
 assignees: ''

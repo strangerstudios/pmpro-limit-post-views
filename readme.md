@@ -1,6 +1,6 @@
 ![](pmpro-limit-post-views.png)
 
-# [Limit Post Views](https://linktoplugin.com) #
+# [Paid Memberships Pro - Limit Post Views](https://www.paidmembershipspro.com/add-ons/pmpro-limit-post-views/) #
 [comment]: # (Generate badges from shields.io, only works for .org plugins to get other stats etc. We'd have to create our own endpoints for Premium plugins)
 
 ![License](https://img.shields.io/badge/license-GPL--3.0%2B-red.svg?style=flat-square)
@@ -8,10 +8,10 @@
 ### Welcome to the Limit Post Views GitHub Repository
 Add a description of the product here.
 
-For more information please visit [linktoplugin.com](https://linktoplugin.com)
+For more information please visit [https://www.paidmembershipspro.com/add-ons/pmpro-limit-post-views/](https://www.paidmembershipspro.com/add-ons/pmpro-limit-post-views/)
 
 ## Installation ##
-For detailed installation steps, visit the [documentation](https://linktoplugin.com) page.
+For detailed installation steps, visit the [documentation](https://www.paidmembershipspro.com/add-ons/pmpro-limit-post-views/) page.
 
 1. Download the current development ZIP file directly: `https://github.com/strangerstudios/pmpro-limit-post-views/archive/refs/heads/dev.zip`
 
@@ -35,4 +35,4 @@ Here are some ways for **non-developers to contribute** to Limit Post Views:
 
 1. Translate Limit Post Views into your own [language](https://www.paidmembershipspro.com/paid-memberships-pro-in-your-language/).
 2. [Purchase a paid membership](https://paidmembershipspro.com/pricing) to help fund ongoing development and bug fixes.
-3. Leave an honest review for [Limit Post Views](https://www.paidmembershipspro.com/submit-testimonial/).
+3. Leave an honest review for [Paid Memberships Pro - Limit Post Views](https://www.paidmembershipspro.com/submit-testimonial/).
