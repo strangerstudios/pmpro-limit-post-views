@@ -121,6 +121,11 @@ function pmprolpv_get_restriction_js() {
 		// Get the limits for this level.
 		$level_limit = pmprolpv_get_level_limit( $level_id );
 
+		// If a view limit is not present, skip this level.
+		if ( empty( $level_limit['views'] ) || empty( $level_limit['period'] ) ) {
+    			continue;
+		}
+
 		// Update $views_remaining based on this level's data.
 		if ( $level_limit['views'] - $lpv_data_period_counts[ $level_limit['period'] ] > $views_remaining ) {
 			$views_remaining = $level_limit['views'] - $lpv_data_period_counts[ $level_limit['period'] ];
