@@ -2,8 +2,8 @@
 Contributors: strangerstudios
 Tags: paid memberships pro, pmpro, nytimes, new york times, post limits, limit, posts
 Requires at least: 4.0
-Tested up to: 6.6
-Stable tag: 1.0
+Tested up to: 6.8
+Stable tag: 1.0.2
 
 Integrates with Paid Memberships Pro to limit the number of times non-members can view posts on your site.
 
@@ -30,6 +30,9 @@ Please post it in the GitHub issue tracker here: https://github.com/strangerstud
 Please visit our premium support site at http://www.paidmembershipspro.com for more documentation and our support forums.
 
 == Changelog ==
+= 1.0.2 - 2025-07-18 =
+* BUG FIX: Fixed an issue where users could view restricted content if their membership level did not have a view limit set. #69 (@dwanjuki)
+
 = 1.0.1 - 2024-08-14 =
 * ENHANCEMENT: Updated the settings page UI to highlight non-member limits as the plugin's primary feature. #59 (@kimcoleman)
 * ENHANCEMENT: Improved compatibility with other Add Ons that restrict post content based on criteria other than membership level. #64 (@dparker1005)
