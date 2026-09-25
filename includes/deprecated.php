@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Set up limit and whether or not to use JavaScript.
  *
@@ -87,7 +91,7 @@ function pmpro_lpv_wp() {
 			// check for past views.			
 			if ( ! empty( $_COOKIE['pmpro_lpv_count'] ) ) {
 				$month = $thismonth;
-				$parts = explode( ';', sanitize_text_field( $_COOKIE['pmpro_lpv_count'] ) );
+				$parts = explode( ';', sanitize_text_field( wp_unslash( $_COOKIE['pmpro_lpv_count'] ) ) );
 				if ( count( $parts ) > 1 ) { // just in case.
 					$month = $parts[1];
 				} else { // for one-time cookie format migration.
@@ -174,6 +178,7 @@ function pmpro_lpv_redirect() {
 		$redirect_url = get_the_permalink( $page_id );
 	}
 
+	// phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- pmpro_url() is filterable and may point offsite (e.g. Network Subsite).
 	wp_redirect( $redirect_url );    // here is where you can change which page is redirected to.
 	exit;
 }
@@ -281,7 +286,7 @@ function pmpro_lpv_wp_footer() {
 
 		// if count is above limit, redirect, otherwise update cookie.
 		if ( count > <?php echo intval( PMPRO_LPV_LIMIT ); ?>) {	
-			window.location.replace('<?php echo $redirect_url;?>');
+			window.location.replace('<?php echo esc_url( $redirect_url ); ?>');
 		} else {			
 			// put the cookie string back together with updated values.
 			var arrlen = newticks.length;
@@ -292,7 +297,7 @@ function pmpro_lpv_wp_footer() {
 				}
 			}
 			// output the cookie to track the view
-			wpCookies.set('pmpro_lpv_count', outstr.slice(1) + ';' + String(month), <?php echo $expires; ?>, '/');
+			wpCookies.set('pmpro_lpv_count', outstr.slice(1) + ';' + String(month), <?php echo intval( $expires ); ?>, '/');
 		}
 	</script>
 	<?php
@@ -320,7 +325,7 @@ function pmprolpv_settings_field_use_js() {
 	$use_js = get_option( 'pmprolpv_use_js' );
 	?>
 	<input value="1" type="checkbox" id="use_js" name="pmprolpv_use_js" <?php checked( $use_js, 1 ); ?>>
-	<label for="use_js"><?php _e("If you have page caching enabled or the PHP redirect otherwise won't work, check this to add our JS code to protected pages.", 'pmpro-limit-post-views' ); ?></label>
+	<label for="use_js"><?php esc_html_e("If you have page caching enabled or the PHP redirect otherwise won't work, check this to add our JS code to protected pages.", 'pmpro-limit-post-views' ); ?></label>
 	<?php
 }
 

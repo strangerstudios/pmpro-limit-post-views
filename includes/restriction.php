@@ -1,5 +1,9 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Give all users access to all posts. LPV will redirect away if the user runs out of free views.
  *
@@ -37,12 +41,13 @@ add_action( 'wp_enqueue_scripts', 'pmprolpv_wp_enqueue_scripts' );
  */
 function pmprolpv_get_restriction_js() {
 	// Check parameters.
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only lookup for public, likely cached pages; no nonce is available.
 	if ( empty( $_REQUEST['url'] ) ) {
 		wp_send_json_error( 'No URL provided.' );
 	}
 
 	// Get the post ID for the passed URL.
-	$post_id = url_to_postid( $_REQUEST['url'] );
+	$post_id = url_to_postid( esc_url_raw( wp_unslash( $_REQUEST['url'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only lookup for public, likely cached pages; no nonce is available.
 	if ( empty( $post_id ) ) {
 		wp_send_json_error( 'Invalid URL.' );
 	}
@@ -69,7 +74,7 @@ function pmprolpv_get_restriction_js() {
 
 	// The user should not have access to this post. Check if they still have LPV views remaining.
 	// LPV post view data is stored in the cookie pmprolpv cookie as a string [post_id],[timestamp];
-	$lpv_data_string = isset( $_COOKIE['pmprolpv'] ) ? $_COOKIE['pmprolpv'] : '';
+	$lpv_data_string = isset( $_COOKIE['pmprolpv'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['pmprolpv'] ) ) : '';
 	$lpv_data_array  = array();
 	if ( ! empty( $lpv_data_string ) ) {
 	    foreach ( explode( ';', $lpv_data_string ) as $lpv_data ) {

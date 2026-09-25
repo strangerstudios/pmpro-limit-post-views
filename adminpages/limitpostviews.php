@@ -8,6 +8,10 @@
  * @package PMPro_Limit_Post_Views
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 // Check permissions first.
 if ( ! current_user_can( apply_filters( 'pmpro_edit_member_capability', 'manage_options' ) ) ) {
 	wp_die( 'You do not have sufficient permissions to access this page.' );

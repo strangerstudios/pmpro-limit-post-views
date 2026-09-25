@@ -8,6 +8,10 @@
  * @package PMPro_Limit_Post_views
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Add settings page to admin menu.
  *
