@@ -10,6 +10,10 @@
  * Domain Path: /languages
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 define( 'PMPROLPV_BASE_FILE', __FILE__ );
 define( 'PMPROLPV_BASENAME', plugin_basename( __FILE__ ) );
 define( 'PMPROLPV_DIR', dirname( __FILE__ ) );
