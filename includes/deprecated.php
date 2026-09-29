@@ -286,7 +286,7 @@ function pmpro_lpv_wp_footer() {
 
 		// if count is above limit, redirect, otherwise update cookie.
 		if ( count > <?php echo intval( PMPRO_LPV_LIMIT ); ?>) {	
-			window.location.replace('<?php echo esc_url( $redirect_url ); ?>');
+			window.location.replace(<?php echo wp_json_encode( esc_url_raw( $redirect_url ) ); ?>);
 		} else {			
 			// put the cookie string back together with updated values.
 			var arrlen = newticks.length;
